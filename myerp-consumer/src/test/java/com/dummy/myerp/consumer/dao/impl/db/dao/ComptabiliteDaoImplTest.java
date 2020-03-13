@@ -27,7 +27,9 @@ public class ComptabiliteDaoImplTest {
     private List<JournalComptable> journalComptableList= new ArrayList<>();
 
 
-    private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle, Integer pCompteComptableNumero,String pCompteComptableLibelle, String pDebit, String pCredit) {
+    private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle,
+                                               Integer pCompteComptableNumero,String pCompteComptableLibelle,
+                                               String pDebit, String pCredit) {
 
         CompteComptable pCompteComptable =  ObjectUtils.defaultIfNull(
                 CompteComptable.getByNumero( compteComptableList, pCompteComptableNumero ),
@@ -35,7 +37,8 @@ public class ComptabiliteDaoImplTest {
 
         BigDecimal vDebit = pDebit == null ?  null : new BigDecimal( pDebit );
         BigDecimal vCredit = pCredit == null ? null : new BigDecimal( pCredit );
-        LigneEcritureComptable vRetour = new LigneEcritureComptable(pLigneId, pCompteComptable, pLigneEcritureLibelle,vDebit,vCredit );
+        LigneEcritureComptable vRetour = new LigneEcritureComptable(pLigneId, pCompteComptable,
+                pLigneEcritureLibelle,vDebit,vCredit );
         return vRetour;
     }
 
@@ -89,7 +92,8 @@ public class ComptabiliteDaoImplTest {
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode( journalComptableList, "VE" ),
                 new JournalComptable( "VE","Vente" ) );
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal,1900,1);
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal,1900,
+                1);
         dao.insertSequenceEcritureComptable( sequenceEcritureComptable );
 
         sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",1900);
@@ -156,8 +160,10 @@ public class ComptabiliteDaoImplTest {
         vEcriture.setDate( date );
         vEcriture.setReference("AL-1900/00000");
         vEcriture.setLibelle("Insertion nouvelle écriture");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",401,"Compte 2",null, "10"));
+        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
+                411,"Compte 1", "10", null));
+        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
+                401,"Compte 2",null, "10"));
 
 
         dao.insertEcritureComptable( vEcriture );
