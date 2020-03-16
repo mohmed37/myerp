@@ -7,8 +7,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 
-import com.dummy.myerp.business.impl.TransactionManager;
-import com.dummy.myerp.model.bean.comptabilite.*;
+import com.dummy.myerp.model.bean.comptabilite.testing.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;

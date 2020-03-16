@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
@@ -23,9 +23,12 @@ public class SequenceEcritureComptableTest {
 
     @Test
     public void getByCodeAndYear() {
+
+        // Arrange
         List<SequenceEcritureComptable> sequenceEcritureComptableList = new ArrayList<SequenceEcritureComptable>();
         SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
 
+        // Act
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode(journalComptableList, "VE"),
                 new JournalComptable("VE", "Vente"));
@@ -33,28 +36,42 @@ public class SequenceEcritureComptableTest {
         sequenceEcritureComptable.setJournalComptable(journal);
         sequenceEcritureComptable.setAnnee(2019);
         sequenceEcritureComptable.setDerniereValeur(1);
-
         sequenceEcritureComptableList.add(sequenceEcritureComptable);
-        Assert.assertNotNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "VE", 2019));
+
+        // Assert
+        Assert.assertNotNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "VE",
+                2019));
         Assert.assertEquals(sequenceEcritureComptable.getDerniereValeur(), SequenceEcritureComptable.getByCodeAndYear
                 (sequenceEcritureComptableList, "VE", 2019).getDerniereValeur());
-        Assert.assertNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "AC", 2020));
+        Assert.assertNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "AC",
+                2020));
 
     }
 
     @Test
     public void isSequenceEcritureComptableExist() {
+
+        // Arrange
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode(journalComptableList, "VE"),
                 new JournalComptable("VE", "Vente"));
 
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal, 2019, 1);
+        // Act
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal, 2019,
+                1);
 
-        Assert.assertTrue(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable, "VE", 2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable, "AC", 2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable, "VE", 2020));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE", 2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE", 2020));
+
+        // Assert
+        Assert.assertTrue(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable
+                , "VE", 2019));
+        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable,
+                "AC", 2019));
+        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable,
+                "VE", 2020));
+        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE",
+                2019));
+        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE",
+                2020));
 
     }
 

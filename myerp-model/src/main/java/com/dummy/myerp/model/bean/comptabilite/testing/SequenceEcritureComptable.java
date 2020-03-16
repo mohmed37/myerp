@@ -1,11 +1,10 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 

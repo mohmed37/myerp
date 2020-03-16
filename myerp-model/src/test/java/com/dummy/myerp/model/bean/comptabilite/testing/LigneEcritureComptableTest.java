@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,16 +13,16 @@ public class LigneEcritureComptableTest {
 
     @Test
     public void getByIdEcritureAndLigneId() {
-
+        // Arrange
         List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<LigneEcritureComptable>();
         LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable();
 
-
+        // Act
         JournalComptable journal = new JournalComptable("AC", "Achat");
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setId(-1);
         ecritureComptable.setJournalComptable(journal);
-        ecritureComptable.setReference("AC-2019/00001");
+        ecritureComptable.setReference("AC-2020/00001");
         ecritureComptable.setDate(new Date());
         ecritureComptable.setLibelle("Cartouches d'imprimante");
 
@@ -35,20 +35,23 @@ public class LigneEcritureComptableTest {
         ligneEcritureComptable.setEcritureComptable(ecritureComptable);
         ligneEcritureComptableList.add(ligneEcritureComptable);
 
+        // Assert
         Assert.assertNotNull(LigneEcritureComptable.getById(ligneEcritureComptableList, -1));
-        Assert.assertEquals(ligneEcritureComptable.getId(), LigneEcritureComptable.getById(ligneEcritureComptableList, -1).getId());
+        Assert.assertEquals(ligneEcritureComptable.getId(), LigneEcritureComptable.getById(ligneEcritureComptableList,
+                -1).getId());
         Assert.assertNull(LigneEcritureComptable.getById(ligneEcritureComptableList, -10));
     }
 
     @Test
     public void isLigneEcritureComptableExist() {
+        // Arrange
         EcritureComptable ecritureComptable = new EcritureComptable();
+        // Act
         ecritureComptable.setId(-1);
         ecritureComptable.setJournalComptable(new JournalComptable("AC", "Achat"));
         ecritureComptable.setDate(new Date());
         ecritureComptable.setLibelle("Cartouches d'imprimante");
-
-        ecritureComptable.setReference("AC-2019/00001");
+        ecritureComptable.setReference("AC-2020/00001");
 
         LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable(
                 1, new CompteComptable(606, "Achats non stockés de matières et fournitures"),
@@ -57,6 +60,7 @@ public class LigneEcritureComptableTest {
 
         ligneEcritureComptable.setEcritureComptable(ecritureComptable);
 
+        // Assert
         Assert.assertTrue(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, -1));
         Assert.assertFalse(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, -10));
         Assert.assertFalse(LigneEcritureComptable.isLigneEcritureComptableExist(null, -1));

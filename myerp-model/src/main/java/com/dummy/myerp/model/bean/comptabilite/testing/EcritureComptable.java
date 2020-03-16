@@ -1,10 +1,8 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

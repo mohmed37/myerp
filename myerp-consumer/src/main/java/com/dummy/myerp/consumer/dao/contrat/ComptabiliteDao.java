@@ -2,10 +2,10 @@ package com.dummy.myerp.consumer.dao.contrat;
 
 import java.util.List;
 
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.CompteComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.EcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 

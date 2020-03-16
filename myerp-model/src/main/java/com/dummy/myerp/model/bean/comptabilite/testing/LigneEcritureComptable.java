@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import java.math.BigDecimal;
 import java.util.List;

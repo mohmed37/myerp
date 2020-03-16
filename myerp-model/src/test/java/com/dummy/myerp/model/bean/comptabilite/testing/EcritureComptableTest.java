@@ -1,4 +1,4 @@
-package com.dummy.myerp.model.bean.comptabilite;
+package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -133,9 +133,10 @@ public class EcritureComptableTest {
 
     @Test
     public void getById() {
-
+        // Arrange
         List<EcritureComptable> ecritureComptableList = new ArrayList<EcritureComptable>();
 
+        // Act
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode(journalComptableList, "VE"),
                 new JournalComptable("VE", "Vente"));
@@ -143,13 +144,13 @@ public class EcritureComptableTest {
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setId(1);
         ecritureComptable.setJournalComptable(journal);
-        ecritureComptable.setReference("VE-2019/00001");
+        ecritureComptable.setReference("VE-2020/00001");
         ecritureComptable.setDate(new Date());
         ecritureComptable.setLibelle("Fournisseur");
         ecritureComptableList.add(ecritureComptable);
 
+        // Assert
         Assert.assertNotNull(EcritureComptable.getById(ecritureComptableList, 1));
-
         Assert.assertNull(EcritureComptable.getById(ecritureComptableList, 2));
     }
 

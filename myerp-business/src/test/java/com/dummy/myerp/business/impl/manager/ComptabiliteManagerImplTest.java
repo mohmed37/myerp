@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import com.dummy.myerp.business.impl.BusinessProxyImpl;
-import com.dummy.myerp.model.bean.comptabilite.*;
+import com.dummy.myerp.model.bean.comptabilite.testing.*;
 import com.dummy.myerp.testbusiness.business.BusinessTestCase;
 import com.dummy.myerp.testbusiness.business.SpringRegistry;
 import org.apache.commons.lang3.ObjectUtils;
@@ -29,7 +29,7 @@ public class ComptabiliteManagerImplTest {
 
 
     private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle,
-                                               Integer pCompteComptableNumero,String pCompteComptableLibelle,
+                                               Integer pCompteComptableNumero, String pCompteComptableLibelle,
                                                String pDebit, String pCredit) {
 
         CompteComptable pCompteComptable =  ObjectUtils.defaultIfNull(
@@ -53,10 +53,13 @@ public class ComptabiliteManagerImplTest {
 
         compteComptableList.add(new CompteComptable(401,"Fournisseurs" ) );
         compteComptableList.add(new CompteComptable(411,"Clients" ) );
-        compteComptableList.add(new CompteComptable(4456,"Taxes sur le chiffre d'affaires déductibles" ) );
-        compteComptableList.add(new CompteComptable(4457,"Taxes sur le chiffre d'affaires collectées par l'entreprise" ) );
+        compteComptableList.add(new CompteComptable(4456,
+                "Taxes sur le chiffre d'affaires déductibles" ) );
+        compteComptableList.add(new CompteComptable(4457,
+                "Taxes sur le chiffre d'affaires collectées par l'entreprise" ) );
         compteComptableList.add(new CompteComptable(512,"Banque" ) );
-        compteComptableList.add(new CompteComptable(606,"Achats non stockés de matières et fournitures" ) );
+        compteComptableList.add(new CompteComptable(606,
+                "Achats non stockés de matières et fournitures" ) );
         compteComptableList.add(new CompteComptable(706,"Prestations de services" ) );
 
         journalComptableList.add(new JournalComptable("AC","Achat") );
@@ -72,171 +75,143 @@ public class ComptabiliteManagerImplTest {
 
     @Test(expected = UnsatisfiedLinkError.class )
     public void testInit()throws UnsatisfiedLinkError{
-        //
 
         Assert.assertEquals(BusinessProxyImpl.getInstance(SpringRegistry.getDaoProxy(),
                 BusinessTestCase.getTransactionManager() ), BusinessProxyImpl.getInstance() );
         Assert.assertNotEquals(BusinessProxyImpl.getInstance(null,BusinessTestCase.getTransactionManager() ),
                 BusinessProxyImpl.getInstance() );
-
     }
 
     @Test
     public void setReference(){
 
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journalComptable,2019,1);
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journalComptable,
+                2020,1);
 
-        Assert.assertEquals("AC-2019/00001",manager.setReference( sequenceEcritureComptable ) );
+        Assert.assertEquals("AC-2020/00001",manager.setReference( sequenceEcritureComptable ) );
 
-        Assert.assertNotEquals("AL-2019/0001",manager.setReference( sequenceEcritureComptable ) );
+        Assert.assertNotEquals("AL-2020/0001",manager.setReference( sequenceEcritureComptable ) );
 
-        sequenceEcritureComptable = new SequenceEcritureComptable(journalComptable,2016,1);
-        Assert.assertNotEquals("AV-2019/00001",manager.setReference( sequenceEcritureComptable ) );
-
-
-    }
+        sequenceEcritureComptable = new SequenceEcritureComptable(journalComptable,2019,1);
+        Assert.assertNotEquals("AV-2020/00001",manager.setReference( sequenceEcritureComptable ) );
 
 
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG5()throws FunctionalException{
-
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( journalComptable);
-        vEcriture.setReference("AC-2019/00001");
-        vEcriture.setDate( new Date() );
-        vEcriture.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2",null, "10"));
-
-        manager.checkEcritureComptable( vEcriture );
-
-        vEcriture.setReference("AC-2016/00001");
-        manager.checkEcritureComptable( vEcriture );
     }
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitViolation() throws Exception {
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+        EcritureComptable ecritureComptable;
+        ecritureComptable= new EcritureComptable();
+        manager.checkEcritureComptableUnit(ecritureComptable);
     }
+
+
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptableUnitRG1()throws FunctionalException{
+
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( journalComptable);
+        ecritureComptable.setReference("BQ-2020/00001");
+        ecritureComptable.setDate( new Date() );
+        ecritureComptable.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+
+        manager.checkEcritureComptable(ecritureComptable );
+
+        ecritureComptable.setReference("AC-2020/00001");
+        manager.checkEcritureComptable(ecritureComptable );
+    }
+
+
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG2() throws Exception {
 
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( journalComptable );
-        vEcriture.setReference("AC-2019/00001");
-        vEcriture.setDate( new Date());
-        vEcriture.setLibelle("équilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", null, "10"));
-        manager.checkEcritureComptable( vEcriture );
-        vEcriture.setLibelle("Non équilibrée");
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1","10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", "20", "1"));
-        manager.checkEcritureComptable( vEcriture );
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( journalComptable );
+        ecritureComptable.setReference("AC-2019/00001");
+        ecritureComptable.setDate( new Date());
+        ecritureComptable.setLibelle("équilibrée");
+        ecritureComptable.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        manager.checkEcritureComptable(ecritureComptable );
+        ecritureComptable.setLibelle("Non équilibrée");
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "62.74"));
+        manager.checkEcritureComptable( ecritureComptable );
     }
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
 
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( journalComptable );
-        vEcriture.setReference("AC-2019/00001");
-        vEcriture.setDate( new Date() );
-        vEcriture.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2",null, "10"));
-        manager.checkEcritureComptable( vEcriture );
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( journalComptable );
+        ecritureComptable.setReference("BQ-2020/00001");
+        ecritureComptable.setDate( new Date() );
+        ecritureComptable.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        manager.checkEcritureComptable( ecritureComptable);
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", null, null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", null, null));
-        manager.checkEcritureComptable( vEcriture );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", null, "52.74"));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        manager.checkEcritureComptable( ecritureComptable );
     }
     @Test
     public void isNumberValidEcritureComptable(){
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+        EcritureComptable ecritureComptable = new EcritureComptable();
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2",null, "301"));
-        Assert.assertTrue(manager.isNumberValidEcritureComptable( vEcriture ) );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture valide : au moins 1  ligne de débit et 1 ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        Assert.assertTrue(manager.isNumberValidEcritureComptable( ecritureComptable ));
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture valide : au moins 2 lignes de débit/crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1","45", "5"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2","40", "7"));
-        Assert.assertTrue(manager.isNumberValidEcritureComptable( vEcriture ) );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture non valide : 1 seule ligne de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        Assert.assertFalse(manager.isNumberValidEcritureComptable( ecritureComptable ) );
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture valide :  1 ligne de débit et 1 ligne de débit/crédit ");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2","40", "7"));
-        Assert.assertTrue(manager.isNumberValidEcritureComptable( vEcriture ) );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture non valide : 1 seule ligne de débit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        Assert.assertFalse(manager.isNumberValidEcritureComptable( ecritureComptable ) );
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture valide :  1 ligne de crédit et 1 seule ligne de débit/crédit ");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1",null, "301"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2","40", "7"));
-        Assert.assertTrue(manager.isNumberValidEcritureComptable( vEcriture ) );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        Assert.assertFalse(manager.isNumberValidEcritureComptable( ecritureComptable ) );
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 1 seule ligne de débit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        Assert.assertFalse(manager.isNumberValidEcritureComptable( vEcriture ) );
-
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 1 seule ligne de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1",null, "301"));
-        Assert.assertFalse(manager.isNumberValidEcritureComptable( vEcriture ) );
-
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 1 seule ligne de débit/crédit ");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1","40", "7"));
-        Assert.assertFalse(manager.isNumberValidEcritureComptable( vEcriture ) );
-
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1","10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", "30", null));
-        Assert.assertFalse(manager.isNumberValidEcritureComptable( vEcriture ) );
-
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", null, "30"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", null, "10"));
-        Assert.assertFalse(manager.isNumberValidEcritureComptable( vEcriture ) );
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Nombre écriture non valide : 2 lignes de crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2,"Facture F11001",
+                401,"Fournisseur", "52.74", null));
+        Assert.assertFalse(manager.isNumberValidEcritureComptable( ecritureComptable ) );
     }
 
     @Test
@@ -254,43 +229,43 @@ public class ComptabiliteManagerImplTest {
     @Test
     public void isReferenceValid(){
         Date date = new Date();
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( new JournalComptable("AC","Achat") );
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( new JournalComptable("AC","Achat") );
 
-       vEcriture.setReference("AC-2020/00001");
-        vEcriture.setDate( date );
-        Assert.assertTrue( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AC-2020/00001");
+        ecritureComptable.setDate( date );
+        Assert.assertTrue( manager.isReferenceValid( ecritureComptable ) );
 
-        vEcriture.setReference("AL-2020/00001");
-        Assert.assertFalse( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AL-2020/00001");
+        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        vEcriture.setReference("AL-2016/00001");
-        Assert.assertFalse( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AL-2020/00001");
+        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        vEcriture.setReference("AC-2016/00001");
-        Assert.assertFalse( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AC-2019/00001");
+        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        vEcriture.setReference("AC-2016/0000");
-        Assert.assertFalse( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AC-2020/0000");
+        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        vEcriture.setReference("AC-2020/0000");
-        Assert.assertFalse( manager.isReferenceValid( vEcriture ) );
+        ecritureComptable.setReference("AC-2020/0000");
+        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
     }
     @Test(expected = FunctionalException.class )
     public void checkEcritureComptableUnitConstaint()throws FunctionalException{
 
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( journalComptable );
-        vEcriture.setReference("AC-2019/00001");
-        vEcriture.setDate( new Date() );
-        vEcriture.setLibelle("Non équilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2", null, "10"));
-        manager.checkEcritureComptable( vEcriture );
-        vEcriture.getListLigneEcriture().clear();
-        manager.checkEcritureComptable( vEcriture );
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( journalComptable );
+        ecritureComptable.setReference("AC-2020/00001");
+        ecritureComptable.setDate( new Date() );
+        ecritureComptable.setLibelle("équilibrée");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F11001",
+                512,"Banque",null, "52.74"));
+        manager.checkEcritureComptable( ecritureComptable );
+        ecritureComptable.getListLigneEcriture().clear();
+        manager.checkEcritureComptable(ecritureComptable );
     }
 
 

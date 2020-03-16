@@ -3,7 +3,7 @@ package com.dummy.myerp.consumer.dao.impl.db.dao;
 import com.dummy.myerp.consumer.SpringRegistry;
 import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.consumer.db.DataSourcesEnum;
-import com.dummy.myerp.model.bean.comptabilite.*;
+import com.dummy.myerp.model.bean.comptabilite.testing.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -28,7 +28,7 @@ public class ComptabiliteDaoImplTest {
 
 
     private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle,
-                                               Integer pCompteComptableNumero,String pCompteComptableLibelle,
+                                               Integer pCompteComptableNumero, String pCompteComptableLibelle,
                                                String pDebit, String pCredit) {
 
         CompteComptable pCompteComptable =  ObjectUtils.defaultIfNull(
@@ -92,11 +92,11 @@ public class ComptabiliteDaoImplTest {
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode( journalComptableList, "VE" ),
                 new JournalComptable( "VE","Vente" ) );
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal,1900,
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal,2020,
                 1);
         dao.insertSequenceEcritureComptable( sequenceEcritureComptable );
 
-        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",1900);
+        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",2020);
         assertNotNull( sequenceEcritureComptable );
 
 
@@ -104,12 +104,12 @@ public class ComptabiliteDaoImplTest {
         dao.updateSequenceEcritureComptable( sequenceEcritureComptable );;
 
 
-        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",1900);
+        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",2020);
         assertTrue( sequenceEcritureComptable.getDerniereValeur().equals( 2 ) );
 
         dao.deleteSequenceEcritureComptable( sequenceEcritureComptable );
 
-        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",1900);
+        sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",2020);
         assertNull( sequenceEcritureComptable );
 
     }
@@ -155,34 +155,34 @@ public class ComptabiliteDaoImplTest {
     @Test(expected = NotFoundException.class )
     public void crudEcritureComptable() throws NotFoundException {
         Date date = new Date();
-        EcritureComptable vEcriture = new EcritureComptable();
-        vEcriture.setJournalComptable( new JournalComptable("AC","Achat") );
-        vEcriture.setDate( date );
-        vEcriture.setReference("AL-1900/00000");
-        vEcriture.setLibelle("Insertion nouvelle écriture");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Facture c1",
-                411,"Compte 1", "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Facture c2",
-                401,"Compte 2",null, "10"));
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournalComptable( new JournalComptable("BQ","Banque") );
+        ecritureComptable.setDate( date );
+        ecritureComptable.setReference("BQ-2020/00001");
+        ecritureComptable.setLibelle("Paiement Facture F11001");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F110001",
+                401,"Fournisseur", "52.74", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Facture F110001",
+                512,"Banque",null, "52.74"));
 
 
-        dao.insertEcritureComptable( vEcriture );
+        dao.insertEcritureComptable(ecritureComptable );
 
-        EcritureComptable vECRef = dao.getEcritureComptableByRef(vEcriture.getReference());
+        EcritureComptable getEcritureComptableByRef = dao.getEcritureComptableByRef(ecritureComptable.getReference());
 
-        assertNotNull( vECRef);
+        assertNotNull( getEcritureComptableByRef);
 
-        vECRef.setReference("AL-1900/00002");
+        getEcritureComptableByRef.setReference("QB-2020/00002");
 
-        dao.updateEcritureComptable( vECRef );
+        dao.updateEcritureComptable( getEcritureComptableByRef );
 
-        vECRef = dao.getEcritureComptableByRef( vECRef.getReference() );
+        getEcritureComptableByRef = dao.getEcritureComptableByRef(getEcritureComptableByRef.getReference() );
 
-        assertNotNull( vECRef);
+        assertNotNull( getEcritureComptableByRef);
 
-        dao.deleteEcritureComptable( vECRef.getId() );
+        dao.deleteEcritureComptable( getEcritureComptableByRef.getId() );
 
-        dao.getEcritureComptableByRef( vECRef.getReference() );
+        dao.getEcritureComptableByRef(getEcritureComptableByRef.getReference() );
 
     }
 

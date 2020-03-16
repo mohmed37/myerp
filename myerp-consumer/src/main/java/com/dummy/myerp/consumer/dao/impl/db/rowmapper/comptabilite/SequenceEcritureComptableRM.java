@@ -2,10 +2,7 @@ package com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite;
 
 import com.dummy.myerp.consumer.dao.impl.cache.JournalComptableDaoCache;
 import com.dummy.myerp.consumer.db.helper.ResultSetHelper;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.SequenceEcritureComptable;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

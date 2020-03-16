@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 import com.dummy.myerp.consumer.dao.impl.cache.CompteComptableDaoCache;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.testing.LigneEcritureComptable;
 
 
 /**
