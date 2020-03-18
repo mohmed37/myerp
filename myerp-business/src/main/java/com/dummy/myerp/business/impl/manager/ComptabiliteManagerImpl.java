@@ -193,7 +193,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         boolean bYear = String.valueOf( calendar.get(Calendar.YEAR ) ).equals(ecritureComptable.getReference().substring(3,7) );
 
-        boolean bRegEx = Pattern.matches("[A-Z]{2}-[0-9]{4}/[0-9]{5}", ecritureComptable.getReference() ) ;
+        String pattern="[A-Z]{2}-[0-9]{4}/[0-9]{5}";
+        boolean bRegEx = Pattern.matches(pattern, ecritureComptable.getReference() ) ;
 
         boolean bCodeJournal = ecritureComptable.getJournalComptable().getCode().equals( ecritureComptable.getReference().substring(0,2) );
 

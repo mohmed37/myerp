@@ -58,6 +58,11 @@
         <sonar.version>3.7.0.1746</sonar.version>
         <aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
+        <sonar.projectKey>mohmed37_myerp</sonar.projectKey>
+        <sonar.organization>mohmed37</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>aa3efaf83840248093680be3d4de8d9aec489494</sonar.login>
+
     </properties>
 
 

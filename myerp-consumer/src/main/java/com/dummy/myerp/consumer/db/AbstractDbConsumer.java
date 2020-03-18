@@ -1,6 +1,6 @@
 package com.dummy.myerp.consumer.db;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import javax.sql.DataSource;
 
@@ -26,7 +26,7 @@ public abstract class AbstractDbConsumer {
     /**
      * Map des DataSources
      */
-    private static Map<DataSourcesEnum, DataSource> mapDataSource;
+    private  static Map<DataSourcesEnum, DataSource> mapDataSource;
 
 
     // ==================== Constructeurs ====================
@@ -60,7 +60,7 @@ public abstract class AbstractDbConsumer {
      * @return SimpleJdbcTemplate
      */
     protected DataSource getDataSource(DataSourcesEnum pDataSourceId) {
-        DataSource vRetour = this.mapDataSource.get(pDataSourceId);
+        DataSource vRetour = mapDataSource.get(pDataSourceId);
         if (vRetour == null) {
             throw new UnsatisfiedLinkError("La DataSource suivante n'a pas été initialisée : " + pDataSourceId);
         }
@@ -83,10 +83,9 @@ public abstract class AbstractDbConsumer {
                                                     String pSeqName, Class<T> pSeqValueClass) {
 
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource(pDataSourcesId));
-        String vSeqSQL = "SELECT last_value FROM " + pSeqName;
+        String vSeqSQL = String.format("SELECT last_value FROM %s", pSeqName);
 
-
-        return  vJdbcTemplate.queryForObject(vSeqSQL, pSeqValueClass);
+        return vJdbcTemplate.queryForObject(vSeqSQL, pSeqValueClass);
     }
 
 
@@ -100,7 +99,7 @@ public abstract class AbstractDbConsumer {
     public static void configure(Map<DataSourcesEnum, DataSource> pMapDataSource) {
         // On pilote l'ajout avec l'Enum et on ne rajoute pas tout à l'aveuglette...
         //   ( pas de AbstractDbDao.mapDataSource.putAll(...) )
-        Map<DataSourcesEnum, DataSource> vMapDataSource = new HashMap<>(DataSourcesEnum.values().length);
+        EnumMap<DataSourcesEnum, DataSource> vMapDataSource = new EnumMap<>(DataSourcesEnum.class);
         DataSourcesEnum[] vDataSourceIds = DataSourcesEnum.values();
         for (DataSourcesEnum vDataSourceId : vDataSourceIds) {
             DataSource vDataSource = pMapDataSource.get(vDataSourceId);
@@ -121,9 +120,7 @@ public abstract class AbstractDbConsumer {
     }
 
     public static boolean isDataSourceConfig(DataSource vDataSource,Map<DataSourcesEnum, DataSource> pMapDataSource,DataSourcesEnum vDataSourceId){
-        if(vDataSource == null || !pMapDataSource.containsKey( vDataSourceId) )
-            return true;
 
-        return false;
+        return (vDataSource == null || !pMapDataSource.containsKey( vDataSourceId) );
     }
 }
