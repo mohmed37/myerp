@@ -4,24 +4,19 @@ import java.util.List;
 
 import com.dummy.myerp.consumer.ConsumerHelper;
 import com.dummy.myerp.model.bean.comptabilite.testing.JournalComptable;
+import lombok.NoArgsConstructor;
 
 
 /**
  * Cache DAO de {@link JournalComptable}
  */
+@NoArgsConstructor
 public class JournalComptableDaoCache {
 
     // ==================== Attributs ====================
     /** The List compte comptable. */
     private List<JournalComptable> listJournalComptable;
 
-
-    // ==================== Constructeurs ====================
-    /**
-     * Instantiates a new Compte comptable dao cache.
-     */
-    public JournalComptableDaoCache() {
-    }
 
 
     // ==================== Méthodes ====================
@@ -35,8 +30,6 @@ public class JournalComptableDaoCache {
         if (listJournalComptable == null) {
             listJournalComptable = ConsumerHelper.getDaoProxy().getComptabiliteDao().getListJournalComptable();
         }
-
-        JournalComptable vRetour = JournalComptable.getByCode(listJournalComptable, pCode);
-        return vRetour;
+        return JournalComptable.getByCode(listJournalComptable, pCode);
     }
 }

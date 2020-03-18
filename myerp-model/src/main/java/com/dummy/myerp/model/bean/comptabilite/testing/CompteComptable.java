@@ -59,6 +59,16 @@ public class CompteComptable {
         }
         return vRetour;
     }
+    public static CompteComptable getByLibelle(List<? extends CompteComptable> pList, String libelle) {
+        CompteComptable vRetour = null;
+        for (CompteComptable vBean : pList) {
+            if (vBean != null && Objects.equals(vBean.getLibelle(), libelle)) {
+                vRetour = vBean;
+                break;
+            }
+        }
+        return vRetour;
+    }
    static boolean isCompteComptableExist(CompteComptable vBean, Integer pNumero){
 
         return (vBean != null && Objects.equals(vBean.getNumero(), pNumero) );

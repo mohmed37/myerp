@@ -20,7 +20,7 @@ public abstract class AbstractDbConsumer {
     /**
      * Logger Log4j pour la classe
      */
-    private static final Logger LOGGER = LogManager.getLogger(AbstractDbConsumer.class);
+    static final Logger LOGGER = LogManager.getLogger(AbstractDbConsumer.class);
 
 
     /**
@@ -84,9 +84,9 @@ public abstract class AbstractDbConsumer {
 
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource(pDataSourcesId));
         String vSeqSQL = "SELECT last_value FROM " + pSeqName;
-        T vSeqValue = vJdbcTemplate.queryForObject(vSeqSQL, pSeqValueClass);
 
-        return vSeqValue;
+
+        return  vJdbcTemplate.queryForObject(vSeqSQL, pSeqValueClass);
     }
 
 

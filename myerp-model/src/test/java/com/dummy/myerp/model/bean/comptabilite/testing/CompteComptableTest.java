@@ -21,7 +21,17 @@ public class CompteComptableTest {
         Assert.assertNull( CompteComptable.getByNumero(compteComptableList,402));
 
     }
+    @Test
+    public void getByLibelle(){
+        // Arrange
+        List<CompteComptable> compteComptableList = new  ArrayList<CompteComptable>();
+        // Act
+        compteComptableList.add(  new CompteComptable(401,"Fournisseur") );
+        // Assert
+        Assert.assertNotNull( CompteComptable.getByLibelle(compteComptableList,"Fournisseur"));
+        Assert.assertNull( CompteComptable.getByLibelle(compteComptableList,null));
 
+    }
     @Test
     public void isCompteComptableExist(){
         // Arrange

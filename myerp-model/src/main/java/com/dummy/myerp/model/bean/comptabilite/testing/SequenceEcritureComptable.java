@@ -16,7 +16,8 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+
+
 public class SequenceEcritureComptable{
 
     // ==================== Attributs ====================
@@ -56,6 +57,7 @@ public class SequenceEcritureComptable{
         }
         return vRetour;
     }
+
 
     public static boolean isSequenceEcritureComptableExist(SequenceEcritureComptable vBean, String pCode, Integer pYear){
         return (vBean != null && Objects.equals(vBean.getJournalComptable().getCode(), pCode) && Objects.equals(vBean.getAnnee(), pYear));

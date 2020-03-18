@@ -27,6 +27,7 @@ public class ComptabiliteDaoImplTest {
     private List<JournalComptable> journalComptableList= new ArrayList<>();
 
 
+
     private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle,
                                                Integer pCompteComptableNumero, String pCompteComptableLibelle,
                                                String pDebit, String pCredit) {
@@ -157,7 +158,7 @@ public class ComptabiliteDaoImplTest {
         Date date = new Date();
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setJournalComptable( new JournalComptable("BQ","Banque") );
-        ecritureComptable.setDate( date );
+        ecritureComptable.setDate(date );
         ecritureComptable.setReference("BQ-2020/00001");
         ecritureComptable.setLibelle("Paiement Facture F11001");
         ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Facture F110001",

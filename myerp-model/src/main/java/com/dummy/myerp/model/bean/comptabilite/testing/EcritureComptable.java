@@ -24,7 +24,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class EcritureComptable{
 
@@ -64,7 +63,7 @@ public class EcritureComptable{
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
      */
-    // TODO à tester
+
     public BigDecimal getTotalDebit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
@@ -96,8 +95,7 @@ public class EcritureComptable{
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
-        return vRetour;
+        return this.getTotalDebit().equals(getTotalCredit());
     }
 
     public boolean isAmountNotNull(BigDecimal amount){

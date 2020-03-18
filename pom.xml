@@ -54,14 +54,9 @@
         <!-- ===== Version properties ===== -->
         <log4j.version>2.8.1</log4j.version>
         <spring.version>5.2.1.RELEASE</spring.version>
-      <sonar.version>3.7.0.1746</sonar.version>
+        <jacoco.version>0.8.5</jacoco.version>
+        <sonar.version>3.7.0.1746</sonar.version>
         <aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-
-            <sonar.projectKey>mohmed37_myerp</sonar.projectKey>
-            <sonar.organization>mohmed37</sonar.organization>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-            <sonar.login>2e5bd2bd5ce50f8b7e0318af1c5cda7b984f97ee</sonar.login>
-
 
     </properties>
 
@@ -263,37 +258,37 @@
                 <scope>test</scope>
             </dependency>
 
-                <dependency>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-core</artifactId>
-                    <version>3.1.0</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.xml.bind</groupId>
-                    <artifactId>jaxb-api</artifactId>
-                    <version>2.4.0-b180830.0359</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-core</artifactId>
-                    <version>2.3.0.1</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-impl</artifactId>
-                    <version>2.4.0-b180830.0438</version>
-                </dependency>
-                <dependency>
-                    <groupId>javax.activation</groupId>
-                    <artifactId>activation</artifactId>
-                    <version>1.1.1</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-lang3</artifactId>
-                    <version>3.9</version>
-                </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>3.1.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.4.0-b180830.0359</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>2.3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.4.0-b180830.0438</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.9</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -328,7 +323,6 @@
             <artifactId>build-helper-maven-plugin</artifactId>
             <version>1.10</version>
         </dependency>
-
     </dependencies>
 
 
@@ -351,15 +345,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.2</version>
-                    <executions>
-                        <execution>
-                            <id>default-prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <version>${jacoco.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -525,37 +511,37 @@
 
             <!-- ===== Création du rapport des tests unitaires (JUnit) ===== -->
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-report-plugin</artifactId>
-            <version>3.0.0-M3</version>
-            <configuration>
-                <linkXRef>false</linkXRef>
-            </configuration>
-            <reportSets>
-                <!-- reportSet par défaut, exécuté dans tous les modules (non-aggregate reports) -->
-                <reportSet>
-                    <reports>
-                        <!-- goal "report-only" afin de ne pas relancer les tests unitaires
-                             car normalement ils ont été lancés par la phase compile -->
-                        <report>report-only</report>
-                    </reports>
-                </reportSet>
-                <reportSet>
-                    <!-- reportSet d'agrégation des rapports des sous-modules -->
-                    <id>aggregate</id>
-                    <!-- don't run aggregate in child modules -->
-                    <inherited>false</inherited>
-                    <reports>
-                        <!-- goal "report-only" afin de ne pas relancer les tests unitaires
-                             car normalement ils ont été lancés par la phase compile -->
-                        <report>report-only</report>
-                    </reports>
-                    <configuration>
-                        <aggregate>true</aggregate>
-                    </configuration>
-                </reportSet>
-            </reportSets>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <reportSets>
+                    <!-- reportSet par défaut, exécuté dans tous les modules (non-aggregate reports) -->
+                    <reportSet>
+                        <reports>
+                            <!-- goal "report-only" afin de ne pas relancer les tests unitaires
+                                 car normalement ils ont été lancés par la phase compile -->
+                            <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <!-- reportSet d'agrégation des rapports des sous-modules -->
+                        <id>aggregate</id>
+                        <!-- don't run aggregate in child modules -->
+                        <inherited>false</inherited>
+                        <reports>
+                            <!-- goal "report-only" afin de ne pas relancer les tests unitaires
+                                 car normalement ils ont été lancés par la phase compile -->
+                            <report>report-only</report>
+                        </reports>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </reportSet>
+                </reportSets>
+            </plugin>
 
             <!-- ===== Génération de la Javadoc ===== -->
             <plugin>
