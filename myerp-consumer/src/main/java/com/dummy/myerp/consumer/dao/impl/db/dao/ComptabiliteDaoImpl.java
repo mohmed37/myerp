@@ -53,7 +53,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
     // ==================== Méthodes ====================
 // ==================== Reinitialisation de la base de donnée ====================
-    private static  String sqlInitData=null;
+    private String sqlInitData;
 
     public void setSQLinitData(String pSQLinitData) {
         sqlInitData = pSQLinitData;
