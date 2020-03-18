@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CompteComptableTest {
 
 
@@ -18,6 +19,7 @@ public class CompteComptableTest {
         // Assert
         Assert.assertNotNull( CompteComptable.getByNumero(compteComptableList,401));
         Assert.assertNull( CompteComptable.getByNumero(compteComptableList,402));
+
     }
 
     @Test

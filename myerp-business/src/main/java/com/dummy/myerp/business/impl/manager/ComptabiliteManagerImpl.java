@@ -99,6 +99,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
+        // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
+        this.checkEcritureComptableContext (pEcritureComptable ); ;
 
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         this.checkConstraintValid (pEcritureComptable ) ;

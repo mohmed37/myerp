@@ -98,10 +98,10 @@ public class ComptabiliteManagerImplTest {
 
     }
 
+
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitViolation() throws Exception {
-        EcritureComptable ecritureComptable;
-        ecritureComptable= new EcritureComptable();
+        EcritureComptable ecritureComptable= new EcritureComptable();
         manager.checkEcritureComptableUnit(ecritureComptable);
     }
 
