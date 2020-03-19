@@ -57,6 +57,7 @@
         <jacoco.version>0.8.5</jacoco.version>
         <sonar.version>3.7.0.1746</sonar.version>
         <aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+        <sonar.properties>sonar-myerp.properties</sonar.properties>
 
     </properties>
 
