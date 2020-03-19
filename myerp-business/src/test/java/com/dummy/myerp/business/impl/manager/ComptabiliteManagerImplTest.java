@@ -252,7 +252,7 @@ public class ComptabiliteManagerImplTest {
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
         ecritureComptable.setReference("AC-"+ calendar.get(Calendar.YEAR )+"/00000");
-        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
+        Assert.assertTrue( manager.isReferenceValid( ecritureComptable ) );
 
         }
 
