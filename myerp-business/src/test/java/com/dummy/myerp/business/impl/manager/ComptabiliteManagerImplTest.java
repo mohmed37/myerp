@@ -228,29 +228,34 @@ public class ComptabiliteManagerImplTest {
     }
     @Test
     public void isReferenceValid(){
-        Date date = new Date();
-        EcritureComptable ecritureComptable = new EcritureComptable();
-        ecritureComptable.setJournalComptable( new JournalComptable("AC","Achat") );
 
-        ecritureComptable.setReference("AC-2020/00001");
+        // Arrange
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        // Act
+        ecritureComptable.setJournalComptable( new JournalComptable("AC","Achat") );
+        ecritureComptable.setReference("AC-"+ calendar.get(Calendar.YEAR )+"/00001");
         ecritureComptable.setDate( date );
+
+        // Assert
         Assert.assertTrue( manager.isReferenceValid( ecritureComptable ) );
 
-        ecritureComptable.setReference("AL-2020/00001");
+        ecritureComptable.setReference("AC-"+ calendar.get(Calendar.YEAR )+"/0001");
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        ecritureComptable.setReference("AL-2020/00001");
+        ecritureComptable.setReference("AL-"+ calendar.get(Calendar.YEAR )+"/00001");
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
         ecritureComptable.setReference("AC-2019/00001");
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        ecritureComptable.setReference("AC-2020/0000");
+        ecritureComptable.setReference("AC-"+ calendar.get(Calendar.YEAR )+"/00000");
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        ecritureComptable.setReference("AC-2020/0000");
-        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
-    }
+        }
+
     @Test(expected = FunctionalException.class )
     public void checkEcritureComptableUnitConstaint()throws FunctionalException{
 

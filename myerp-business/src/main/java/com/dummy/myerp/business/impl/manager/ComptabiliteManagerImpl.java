@@ -198,6 +198,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         boolean bCodeJournal = ecritureComptable.getJournalComptable().getCode().equals( ecritureComptable.getReference().substring(0,2) );
 
+
+
         return  bYear && bRegEx && bCodeJournal ;
 
     }
