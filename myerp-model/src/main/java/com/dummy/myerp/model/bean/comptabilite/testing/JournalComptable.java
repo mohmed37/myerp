@@ -14,7 +14,8 @@ import javax.validation.constraints.Size;
  */
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 
 public class JournalComptable {

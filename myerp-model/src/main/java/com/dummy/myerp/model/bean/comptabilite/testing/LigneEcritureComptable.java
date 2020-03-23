@@ -16,7 +16,8 @@ import lombok.experimental.FieldDefaults;
  */
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class LigneEcritureComptable {
