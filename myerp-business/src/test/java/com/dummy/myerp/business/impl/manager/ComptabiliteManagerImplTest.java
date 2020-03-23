@@ -71,16 +71,6 @@ public class ComptabiliteManagerImplTest {
                 JournalComptable.getByCode( journalComptableList, "AC" ),
                 new JournalComptable( "AL","Achat Libre" ) );
     }
-    @Test(expected = UnsatisfiedLinkError.class )
-    public void testListCompteComptable()throws UnsatisfiedLinkError{
-
-        Assert.assertEquals(BusinessProxyImpl.getInstance(SpringRegistry.getDaoProxy(),
-                BusinessTestCase.getTransactionManager() ), BusinessProxyImpl.getInstance() );
-        Assert.assertNotEquals(BusinessProxyImpl.getInstance(null,BusinessTestCase.getTransactionManager() ),
-                BusinessProxyImpl.getInstance() );
-    }
-
-
 
     @Test(expected = UnsatisfiedLinkError.class )
     public void testInit()throws UnsatisfiedLinkError{
