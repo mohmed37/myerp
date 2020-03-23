@@ -248,8 +248,7 @@ public class ComptabiliteManagerImplTest {
         ecritureComptable.setReference("AC-2020/0000");
         Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
 
-        ecritureComptable.setReference("AC-2020/0000");
-        Assert.assertFalse( manager.isReferenceValid( ecritureComptable ) );
+
     }
     @Test(expected = FunctionalException.class )
     public void checkEcritureComptableUnitConstaint()throws FunctionalException{
