@@ -15,6 +15,8 @@ import org.junit.Test;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import org.junit.rules.ExpectedException;
 
+import static org.junit.Assert.assertNotNull;
+
 
 public class ComptabiliteManagerImplTest {
     @Rule
@@ -80,6 +82,25 @@ public class ComptabiliteManagerImplTest {
         Assert.assertNotEquals(BusinessProxyImpl.getInstance(null,BusinessTestCase.getTransactionManager() ),
                 BusinessProxyImpl.getInstance() );
     }
+    @Test
+    public void getListCompteComptable() {
+        List<CompteComptable> listCompteComptable = manager.getListCompteComptable();
+        assertNotNull( listCompteComptable);
+    }
+
+    @Test
+    public void getListJournalComptable() {
+        List<JournalComptable> listJournalComptable = manager.getListJournalComptable();
+        assertNotNull(listJournalComptable);
+    }
+
+    @Test
+    public void getListEcritureComptable()  {
+        List<EcritureComptable> listEcritureComptable = manager.getListEcritureComptable();
+        assertNotNull(listEcritureComptable);
+    }
+
+
 
     @Test
     public void setReference(){

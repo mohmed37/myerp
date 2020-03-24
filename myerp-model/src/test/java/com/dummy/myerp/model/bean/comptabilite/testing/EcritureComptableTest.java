@@ -55,76 +55,86 @@ public class EcritureComptableTest {
 
     @Test
     public void isEquilibree() {
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+        // Arrange
+        EcritureComptable ecritureComptable = new EcritureComptable();
 
-        vEcriture.setLibelle("Equilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
+        // Act
+        ecritureComptable.setLibelle("Equilibrée");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
                 401,"Fournisseur","52.74", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
                 512, "Banque",null, "52.74"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 606,"Prix fourniture","43.95", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 4456,"TVA","8.79", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 401,"Facture C110002",null, "52.74"));
-        Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Non équilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
+        // Assert
+        Assert.assertTrue(ecritureComptable.toString(), ecritureComptable.isEquilibree());
+
+        // Act
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.setLibelle("Non équilibrée");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
                 401,"Fournisseur","52.74", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
                 512, "Banque",null, "52.74"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 606,"Prix fourniture","43.95", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 401,"Facture C110002",null, "52.74"));
-        Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
+
+        // Assert
+        Assert.assertFalse(ecritureComptable.toString(), ecritureComptable.isEquilibree());
     }
 
     @Test
     public void getTotalDebit() {
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+        // Arrange
+        EcritureComptable ecritureComptable = new EcritureComptable();
 
-
-        vEcriture.setLibelle("Total Débit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        // Act
+        ecritureComptable.setLibelle("Total Débit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 606,"Prix fourniture","80", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 4456,"TVA","20", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 401,"Facture C110002",null, "100"));
 
-        Assert.assertEquals(new BigDecimal( "100.00"),vEcriture.getTotalDebit() );
+        // Assert
+        Assert.assertEquals(new BigDecimal( "100.00"),ecritureComptable.getTotalDebit() );
 
-        Assert.assertNotEquals(new BigDecimal( "100"),vEcriture.getTotalDebit());
+        Assert.assertNotEquals(new BigDecimal( "100"),ecritureComptable.getTotalDebit());
     }
 
     @Test
     public void getTotalCredit(){
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+        // Arrange
+        EcritureComptable ecritureComptable = new EcritureComptable();
 
-        vEcriture.setLibelle("Total Crédit");
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+         // Act
+        ecritureComptable.setLibelle("Total Crédit");
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 606,"Prix fourniture","80", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 4456,"TVA","20", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
                 401,"Facture C110002",null, "100"));
 
-        Assert.assertEquals(new BigDecimal( "100.00"),vEcriture.getTotalDebit() );
+        // Assert
+        Assert.assertEquals(new BigDecimal( "100.00"),ecritureComptable.getTotalDebit() );
 
-        Assert.assertNotEquals(new BigDecimal( "100"),vEcriture.getTotalCredit());
+        Assert.assertNotEquals(new BigDecimal( "100"),ecritureComptable.getTotalCredit());
     }
 
     @Test
     public void isAmountNotNull(){
+        // Arrange
         EcritureComptable ecritureComptable = new EcritureComptable();
-
+        // Assert
         Assert.assertTrue( ecritureComptable.isAmountNotNull( new BigDecimal( "100.00") ));
         Assert.assertTrue(ecritureComptable.isAmountNotNull(new BigDecimal("100")));
         Assert.assertFalse( ecritureComptable.isAmountNotNull( null ) );
