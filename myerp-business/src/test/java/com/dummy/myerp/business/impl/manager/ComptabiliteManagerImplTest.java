@@ -42,7 +42,8 @@ public class ComptabiliteManagerImplTest {
         BigDecimal vCredit = pCredit == null ? null : new BigDecimal( pCredit );
 
 
-        LigneEcritureComptable vRetour = new LigneEcritureComptable(pLigneId, pCompteComptable, pLigneEcritureLibelle,vDebit,vCredit );
+        LigneEcritureComptable vRetour = new LigneEcritureComptable(pLigneId, pCompteComptable, pLigneEcritureLibelle,
+                vDebit,vCredit );
         return vRetour;
     }
     @Before

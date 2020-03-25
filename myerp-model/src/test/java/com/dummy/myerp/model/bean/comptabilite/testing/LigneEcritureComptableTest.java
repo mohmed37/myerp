@@ -1,70 +1,85 @@
 package com.dummy.myerp.model.bean.comptabilite.testing;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LigneEcritureComptableTest {
+   private List<LigneEcritureComptable> ligneEcritureComptableList;
 
+
+    /*
+     *  d'une de ligne Ecriture Comptable
+     */
+    @Before
+    public void initLigneEcritureComptable() {
+
+            ligneEcritureComptableList = new ArrayList<LigneEcritureComptable>();
+           // JournalComptable journalComptable
+            JournalComptable journalComptable=new JournalComptable();
+            journalComptable.setCode("AC");
+            journalComptable.setLibelle("Achat");
+           // EcritureComptable ecritureComptable
+            EcritureComptable ecritureComptable =new EcritureComptable();
+            ecritureComptable.setId(1);
+            ecritureComptable.setJournalComptable(journalComptable);
+            ecritureComptable.setReference("AC-2020/00001");
+            ecritureComptable.setDate(new Date());
+            ecritureComptable.setLibelle("Cartouches d'imprimante");
+            // CompteComptable compteComptable
+            CompteComptable compteComptable=new CompteComptable();
+            compteComptable.setNumero(401);
+            compteComptable.setLibelle("Fournisseurs");
+           //  LigneEcritureComptable ligneEcritureComptable
+            LigneEcritureComptable ligneEcritureComptable = Mockito.mock(LigneEcritureComptable.class);
+            Mockito.when(ligneEcritureComptable.getId()).thenReturn(1);
+            Mockito.when(ligneEcritureComptable.getCompteComptable()).thenReturn(compteComptable);
+            Mockito.when(ligneEcritureComptable.getLibelle()).thenReturn("Cartouches d'imprimante");
+            Mockito.when(ligneEcritureComptable.getEcritureComptable()).thenReturn(ecritureComptable);
+
+            ligneEcritureComptableList.add(ligneEcritureComptable);}
+
+    /*
+     * Test si la ligneEcriture Comptable est pas dans la liste avec ID
+     */
 
     @Test
-    public void getByIdEcritureAndLigneId() {
-        // Arrange
-        List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<LigneEcritureComptable>();
-        LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable();
-
-        // Act
-        JournalComptable journal = new JournalComptable("AC", "Achat");
-        EcritureComptable ecritureComptable = new EcritureComptable();
-        ecritureComptable.setId(-1);
-        ecritureComptable.setJournalComptable(journal);
-        ecritureComptable.setReference("AC-2020/00001");
-        ecritureComptable.setDate(new Date());
-        ecritureComptable.setLibelle("Cartouches d'imprimante");
-
-        // EcritureComptable ecritureComptable;
-        ligneEcritureComptable.setId(1);
-        ligneEcritureComptable.setCompteComptable(new CompteComptable(401, "Fournisseurs"));
-        ligneEcritureComptable.setLibelle("Cartouches d'imprimante");
-        ligneEcritureComptable.setDebit(new BigDecimal("43.95"));
-        ligneEcritureComptable.setCredit(null);
-        ligneEcritureComptable.setEcritureComptable(ecritureComptable);
-        ligneEcritureComptableList.add(ligneEcritureComptable);
-
+    public void getByLigneId() {
         // Assert
-        Assert.assertNotNull(LigneEcritureComptable.getById(ligneEcritureComptableList, -1));
-        Assert.assertEquals(ligneEcritureComptable.getId(), LigneEcritureComptable.getById(ligneEcritureComptableList,
-                -1).getId());
-        Assert.assertNull(LigneEcritureComptable.getById(ligneEcritureComptableList, -10));
+        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 1).getLibelle())
+                .isEqualTo("Cartouches d'imprimante");
+
+        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 1).getId())
+                .isEqualTo(1);
+
+        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 2)).isEqualTo(null);
+
     }
 
     @Test
-    public void isLigneEcritureComptableExist() {
-        // Arrange
-        EcritureComptable ecritureComptable = new EcritureComptable();
-        // Act
-        ecritureComptable.setId(-1);
-        ecritureComptable.setJournalComptable(new JournalComptable("AC", "Achat"));
-        ecritureComptable.setDate(new Date());
-        ecritureComptable.setLibelle("Cartouches d'imprimante");
-        ecritureComptable.setReference("AC-2020/00001");
+    public void isLigneEcritureComptableExistAndCompteComptable() {
 
-        LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable(
-                1, new CompteComptable(606, "Achats non stockés de matières et fournitures"),
-                "Cartouches d'imprimante",
-                new BigDecimal("43.95"),null);
+        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 1).getCompteComptable().getNumero())
+                .isEqualTo(401);
+    }
 
-        ligneEcritureComptable.setEcritureComptable(ecritureComptable);
+    /*
+     * Après chaque test effacement des données
+     */
+    @After
+    public void undefligneEcritureComptable() {
 
-        // Assert
-        Assert.assertTrue(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, -1));
-        Assert.assertFalse(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, -10));
-        Assert.assertFalse(LigneEcritureComptable.isLigneEcritureComptableExist(null, -1));
-        Assert.assertFalse(LigneEcritureComptable.isLigneEcritureComptableExist(null, -10));
-
+        ligneEcritureComptableList.clear();
     }
 }

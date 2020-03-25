@@ -37,8 +37,8 @@ public class CompteComptable {
     private String libelle;
 
 
-    @Valid
-    private final List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<>();
+   /* @Valid
+    private final List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<>();*/
 
 
 
@@ -60,7 +60,7 @@ public class CompteComptable {
         }
         return vRetour;
     }
-    public static CompteComptable getByLibelle(List<? extends CompteComptable> pList, String libelle) {
+    static CompteComptable getByLibelle(List<? extends CompteComptable> pList, String libelle) {
         CompteComptable vRetour = null;
         for (CompteComptable vBean : pList) {
             if (vBean != null && Objects.equals(vBean.getLibelle(), libelle)) {
@@ -70,8 +70,5 @@ public class CompteComptable {
         }
         return vRetour;
     }
-   static boolean isCompteComptableExist(CompteComptable vBean, Integer pNumero){
 
-        return (vBean != null && Objects.equals(vBean.getNumero(), pNumero) );
-    }
 }

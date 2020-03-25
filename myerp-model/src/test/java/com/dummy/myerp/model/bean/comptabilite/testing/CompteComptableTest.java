@@ -1,47 +1,80 @@
 package com.dummy.myerp.model.bean.comptabilite.testing;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class CompteComptableTest {
 
+    private List<CompteComptable> comptesComptable;
 
+    /*
+     * Création d'une liste de compte comptable comptesComptable
+     */
 
-    @Test
-    public void getByNumero(){
-        // Arrange
-        List<CompteComptable> compteComptableList = new  ArrayList<CompteComptable>();
-        // Act
-        compteComptableList.add(  new CompteComptable(401,"Fournisseur") );
-        // Assert
-        Assert.assertNotNull( CompteComptable.getByNumero(compteComptableList,401));
-        Assert.assertNull( CompteComptable.getByNumero(compteComptableList,402));
+    @Before
+    public void initCompteComptable() {
+        comptesComptable = new ArrayList<CompteComptable>();
+        for (int i = 1; i < 3; i++ ) {
+        CompteComptable compteComptable = Mockito.mock(CompteComptable.class);
 
+        Mockito.when(compteComptable.getNumero()).thenReturn(400+i);
+        Mockito.when(compteComptable.getLibelle()).thenReturn("Fournisseurs n° "+i);
+        comptesComptable.add(compteComptable);}
     }
-    @Test
-    public void getByLibelle(){
-        // Arrange
-        List<CompteComptable> compteComptableList = new  ArrayList<CompteComptable>();
-        // Act
-        compteComptableList.add(  new CompteComptable(401,"Fournisseur") );
-        // Assert
-        Assert.assertNotNull( CompteComptable.getByLibelle(compteComptableList,"Fournisseur"));
-        Assert.assertNull( CompteComptable.getByLibelle(compteComptableList,null));
 
-    }
+
+    /*
+     * Test si le numéro du  compte est présent dans la liste
+     */
     @Test
-    public void isCompteComptableExist(){
-        // Arrange
-        CompteComptable compteComptable = new CompteComptable();
-        // Act
-        compteComptable.setNumero( 401);
-        compteComptable.setLibelle("Fournisseur");
-        // Assert
-        Assert.assertTrue( CompteComptable.isCompteComptableExist( compteComptable,401));
-        Assert.assertFalse( CompteComptable.isCompteComptableExist( compteComptable,402));
-        Assert.assertFalse( CompteComptable.isCompteComptableExist( null,401));
+    public void getByNumero_whenCompteComptableExist(){
+        assertThat(CompteComptable.getByNumero(comptesComptable,401).getNumero()).isEqualTo(401);
+        assertThat(CompteComptable.getByNumero(comptesComptable,402).getNumero()).isEqualTo(402);
     }
+
+    /*
+     * Test si le numéro du  compte n'est pas présent dans la liste
+     */
+    @Test
+    public void getByNumero_whenCompteComptableNotExist(){
+        assertThat(CompteComptable.getByNumero(comptesComptable,403)).isEqualTo(null);
+    }
+
+    /*
+     * Test si le libelle du  compte est présent dans la liste
+     */
+    @Test
+    public void getByLibelle_whenCompteComptableExist(){
+        assertThat(CompteComptable.getByLibelle(comptesComptable, "Fournisseurs n° 1").getLibelle()).isEqualTo("Fournisseurs n° 1");
+        assertThat(CompteComptable.getByLibelle(comptesComptable, "Fournisseurs n° 2").getLibelle()).isEqualTo("Fournisseurs n° 2");
+    }
+
+    /*
+     * Test si le libelle du  compte n'est  pas présent dans la liste
+     */
+    @Test
+    public void  getByLibelle_whenCompteComptableNotExist(){
+        assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 3")).isEqualTo(null);
+    }
+
+
+
+    @After
+    public void undefCompteComptable() {
+
+        comptesComptable.clear();
+    }
+
+
 }

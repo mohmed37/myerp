@@ -71,7 +71,7 @@ public class LigneEcritureComptable {
      * @param pId le id de l'écriture du {@link LigneEcritureComptable} à chercher
      * @return {@link LigneEcritureComptable} ou {@code null}
      */
-    public static LigneEcritureComptable getById(List<? extends LigneEcritureComptable> pList, Integer pId) {
+    static LigneEcritureComptable getById(List<? extends LigneEcritureComptable> pList, Integer pId) {
         LigneEcritureComptable vRetour = null;
         for (LigneEcritureComptable vBean : pList) {
             if (isLigneEcritureComptableExist( vBean,  pId )) {
@@ -82,7 +82,7 @@ public class LigneEcritureComptable {
         return vRetour;
     }
 
-    public static boolean isLigneEcritureComptableExist(LigneEcritureComptable vBean, Integer pId ){
+    static boolean isLigneEcritureComptableExist(LigneEcritureComptable vBean, Integer pId){
 
         return (vBean != null && Objects.equals(vBean.getEcritureComptable().getId(), pId) );
     }

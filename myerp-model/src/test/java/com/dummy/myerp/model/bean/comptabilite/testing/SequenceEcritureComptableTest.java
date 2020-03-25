@@ -1,78 +1,67 @@
 package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class SequenceEcritureComptableTest {
 
-    private List<JournalComptable> journalComptableList = new ArrayList<JournalComptable>();
+
+    private List<SequenceEcritureComptable> sequenceEcritureComptableList;
 
     @Before
     public void init() {
-        journalComptableList.add(new JournalComptable("AC", "Achat"));
-        journalComptableList.add(new JournalComptable("VE", "Vente"));
-        journalComptableList.add(new JournalComptable("BQ", "Banque"));
-        journalComptableList.add(new JournalComptable("OD", "Opérations Diverses"));
+        sequenceEcritureComptableList = new ArrayList<SequenceEcritureComptable>();
+
+        JournalComptable journalComptable = new JournalComptable();
+        journalComptable.setCode("VE");
+        journalComptable.setLibelle("Vente");
+
+        SequenceEcritureComptable sequenceEcritureComptable=Mockito.mock(SequenceEcritureComptable.class);
+        Mockito.when(sequenceEcritureComptable.getJournalComptable()).thenReturn(journalComptable);
+        Mockito.when(sequenceEcritureComptable.getAnnee()).thenReturn(2019);
+        Mockito.when(sequenceEcritureComptable.getDerniereValeur()).thenReturn(1);
+        sequenceEcritureComptableList.add(sequenceEcritureComptable);
+
     }
 
     @Test
     public void getByCodeAndYear() {
 
-        // Arrange
-        List<SequenceEcritureComptable> sequenceEcritureComptableList = new ArrayList<SequenceEcritureComptable>();
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
-
-        // Act
-        JournalComptable journal = ObjectUtils.defaultIfNull(
-                JournalComptable.getByCode(journalComptableList, "VE"),
-                new JournalComptable("VE", "Vente"));
-
-        sequenceEcritureComptable.setJournalComptable(journal);
-        sequenceEcritureComptable.setAnnee(2019);
-        sequenceEcritureComptable.setDerniereValeur(1);
-        sequenceEcritureComptableList.add(sequenceEcritureComptable);
-
         // Assert
-        Assert.assertNotNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "VE",
-                2019));
-        Assert.assertEquals(sequenceEcritureComptable.getDerniereValeur(), SequenceEcritureComptable.getByCodeAndYear
-                (sequenceEcritureComptableList, "VE", 2019).getDerniereValeur());
-        Assert.assertNull(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList, "AC",
-                2020));
+        assertThat(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList,"VE",2019).getAnnee()).isEqualTo(2019);
+        assertThat(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList,"VE",2019).getJournalComptable().getCode()).isEqualTo("VE");
+        assertThat(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList,"VE",2019).getDerniereValeur()).isEqualTo(1);
 
     }
 
     @Test
-    public void isSequenceEcritureComptableExist() {
-
-        // Arrange
-        JournalComptable journal = ObjectUtils.defaultIfNull(
-                JournalComptable.getByCode(journalComptableList, "VE"),
-                new JournalComptable("VE", "Vente"));
-
-        // Act
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal, 2019,
-                1);
-
+    public void getByCodenotYear(){
 
         // Assert
-        Assert.assertTrue(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable
-                , "VE", 2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable,
-                "AC", 2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable,
-                "VE", 2020));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE",
-                2019));
-        Assert.assertFalse(SequenceEcritureComptable.isSequenceEcritureComptableExist(null, "VE",
-                2020));
+        assertThat(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList,"VE",2020)).isEqualTo(null);
+        assertThat(SequenceEcritureComptable.getByCodeAndYear(sequenceEcritureComptableList,"VA",2019)).isEqualTo(null);
 
+    }
+
+    /*
+     * Après chaque test effacement des données
+     */
+    @After
+    public void undefSequenceEcriture() {
+
+        sequenceEcritureComptableList.clear();
     }
 
 }

@@ -1,55 +1,68 @@
 package com.dummy.myerp.model.bean.comptabilite.testing;
 
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class JournalComptableTest {
 
+    private List<JournalComptable> journalComptableList;
 
-    private SequenceEcritureComptable createSequence(JournalComptable journalComptable,Integer year,Integer lastValue ){
-        return new SequenceEcritureComptable( journalComptable,year,lastValue );
+    /*
+     * Création d'une liste de journauList comptables journauxComptable
+     */
+
+    @Before
+    public void initJournalComptable() {
+        journalComptableList = new ArrayList<JournalComptable>();
+        for (int i = 1; i < 3; i++ ) {
+            Date date= new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            JournalComptable journalComptable = Mockito.mock(JournalComptable.class);
+            Mockito.when(journalComptable.getCode()).thenReturn("A"+i);
+            Mockito.when(journalComptable.getLibelle()).thenReturn("Libelle"+i);
+            journalComptableList.add(journalComptable);}
     }
 
+    /*
+     * Test si le compte est présent dans la liste
+     */
     @Test
-    public void getByCode() {
-        // Arrange
-        List<JournalComptable> journalComptableList =new ArrayList<JournalComptable>();
-        // Act
-        Date date= new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        JournalComptable journalComptable = new JournalComptable();
-        journalComptable.setCode("AC");
-        journalComptable.setLibelle("Achat");
-        journalComptable.setSequenceEcritureComptable(this.createSequence(journalComptable,
-                calendar.get(Calendar.YEAR ),1));
-        journalComptableList.add(  journalComptable );
-        // Assert
-        Assert.assertNotNull(JournalComptable.getByCode( journalComptableList,"AC" ) );
-        Assert.assertEquals(journalComptable.getLibelle(),JournalComptable.getByCode( journalComptableList,
-                "AC" ).getLibelle() );
-        Assert.assertNull(JournalComptable.getByCode( journalComptableList,"AB" ) );
+    public void getByCode_whenJournalComptableExist() {
+        assertThat(JournalComptable.getByCode(journalComptableList, "A1").getLibelle()).isEqualTo("Libelle1");
+        assertThat(JournalComptable.getByCode(journalComptableList, "A2").getLibelle()).isEqualTo("Libelle2");
     }
 
+    /*
+     * Test si le compte n'est pas dans la liste
+     */
     @Test
-    public void isJournalComptableExist() {
-        // Arrange
-        JournalComptable journalComptable = new JournalComptable() ;
+    public void getByCode_whenJournalComptableNotExist() {
+        assertThat(JournalComptable.getByCode(journalComptableList, "A3")).isEqualTo(null);
+    }
 
-        // Act
-        journalComptable.setCode("AC");
-        journalComptable.setLibelle("Achat");
+    /*
+     * Après chaque test effacement des données
+     */
 
-        // Assert
-        Assert.assertTrue( JournalComptable.isJournalComptableExist( journalComptable,"AC") );
-        Assert.assertFalse( JournalComptable.isJournalComptableExist( journalComptable,"AB" ) );
-        Assert.assertFalse( JournalComptable.isJournalComptableExist( null,"AC") );
+    @After
+    public void undefJournalComptable() {
+
+        journalComptableList.clear();
     }
 }

@@ -6,12 +6,19 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
+@RunWith(MockitoJUnitRunner.class)
 public class EcritureComptableTest {
+
     private List<CompteComptable> compteComptableList = new ArrayList<CompteComptable>();
     private List<JournalComptable >journalComptableList= new ArrayList<JournalComptable>();
 
@@ -30,9 +37,10 @@ public class EcritureComptableTest {
         LigneEcritureComptable vRetour = new LigneEcritureComptable(pLigneId, pCompteComptable, pLigneEcritureLibelle,vDebit,vCredit );
         return vRetour;
     }
-
+    private EcritureComptable ecritureComptable;
+    private List<EcritureComptable> ecritureComptableList;
     @Before
-    public void init(){
+    public void initEcritureComptable(){
 
         compteComptableList.add(new CompteComptable(401,"Fournisseurs" ) );
         compteComptableList.add(new CompteComptable(411,"Clients" ) );
@@ -50,101 +58,20 @@ public class EcritureComptableTest {
         journalComptableList.add(new JournalComptable("BQ","Banque") );
         journalComptableList.add(new JournalComptable("OD","Opérations Diverses") );
 
+        ecritureComptable = new EcritureComptable();
 
-    }
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
+                606,"Prix fourniture","80.00", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
+                4456,"TVA","20.00", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
+                401,"Facture C110002",null, "100.00"));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2,"Founisseur 1",
+                401,"Fournisseur","100.00", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fournisseur 1",
+                512, "Banque",null, "100.00"));
 
-    @Test
-    public void isEquilibree() {
-        // Arrange
-        EcritureComptable ecritureComptable = new EcritureComptable();
-
-        // Act
-        ecritureComptable.setLibelle("Equilibrée");
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
-                401,"Fournisseur","52.74", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
-                512, "Banque",null, "52.74"));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                606,"Prix fourniture","43.95", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                4456,"TVA","8.79", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                401,"Facture C110002",null, "52.74"));
-
-        // Assert
-        Assert.assertTrue(ecritureComptable.toString(), ecritureComptable.isEquilibree());
-
-        // Act
-        ecritureComptable.getListLigneEcriture().clear();
-        ecritureComptable.setLibelle("Non équilibrée");
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(1,"Founisseur 1",
-                401,"Fournisseur","52.74", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fournisseur 1",
-                512, "Banque",null, "52.74"));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                606,"Prix fourniture","43.95", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                401,"Facture C110002",null, "52.74"));
-
-        // Assert
-        Assert.assertFalse(ecritureComptable.toString(), ecritureComptable.isEquilibree());
-    }
-
-    @Test
-    public void getTotalDebit() {
-        // Arrange
-        EcritureComptable ecritureComptable = new EcritureComptable();
-
-        // Act
-        ecritureComptable.setLibelle("Total Débit");
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                606,"Prix fourniture","80", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                4456,"TVA","20", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                401,"Facture C110002",null, "100"));
-
-        // Assert
-        Assert.assertEquals(new BigDecimal( "100.00"),ecritureComptable.getTotalDebit() );
-
-        Assert.assertNotEquals(new BigDecimal( "100"),ecritureComptable.getTotalDebit());
-    }
-
-    @Test
-    public void getTotalCredit(){
-        // Arrange
-        EcritureComptable ecritureComptable = new EcritureComptable();
-
-         // Act
-        ecritureComptable.setLibelle("Total Crédit");
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                606,"Prix fourniture","80", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                4456,"TVA","20", null));
-        ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fourniture",
-                401,"Facture C110002",null, "100"));
-
-        // Assert
-        Assert.assertEquals(new BigDecimal( "100.00"),ecritureComptable.getTotalDebit() );
-
-        Assert.assertNotEquals(new BigDecimal( "100"),ecritureComptable.getTotalCredit());
-    }
-
-    @Test
-    public void isAmountNotNull(){
-        // Arrange
-        EcritureComptable ecritureComptable = new EcritureComptable();
-        // Assert
-        Assert.assertTrue( ecritureComptable.isAmountNotNull( new BigDecimal( "100.00") ));
-        Assert.assertTrue(ecritureComptable.isAmountNotNull(new BigDecimal("100")));
-        Assert.assertFalse( ecritureComptable.isAmountNotNull( null ) );
-
-    }
-
-    @Test
-    public void getById() {
-        // Arrange
-        List<EcritureComptable> ecritureComptableList = new ArrayList<EcritureComptable>();
+        ecritureComptableList = new ArrayList<EcritureComptable>();
 
         // Act
         JournalComptable journal = ObjectUtils.defaultIfNull(
@@ -158,10 +85,85 @@ public class EcritureComptableTest {
         ecritureComptable.setDate(new Date());
         ecritureComptable.setLibelle("Fournisseur");
         ecritureComptableList.add(ecritureComptable);
+    }
+
+    /*
+     * Test si ecriture comptable est équilibré
+     *
+     */
+    @Test
+    public void isEquilibree() {
+        // Assert
+        assertThat(ecritureComptable.isEquilibree()).isEqualTo(true);
+    }
+
+    /*
+     * Test si ecriture comptable n'est pas équilibré
+     */
+    @Test
+    public void isNotEquilibree() {
+        ecritureComptable.setLibelle("Non équilibrée");
+
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
+                606,"Prix fourniture","80.0", null));
+        ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
+                401,"Facture C110002",null, "100.00"));
+
+        assertThat(ecritureComptable.isEquilibree()).isEqualTo(false);
+
+    }
+    /*
+     * Test si la somme du débit est correct
+     */
+
+    @Test
+    public void getTotalDebit() {
+        // Assert
+        Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalDebit() );
+        Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalDebit());
+    }
+
+    /*
+     * Test si la somme du crédit est correct
+     */
+    @Test
+    public void getTotalCredit(){
 
         // Assert
-        Assert.assertNotNull(EcritureComptable.getById(ecritureComptableList, 1));
-        Assert.assertNull(EcritureComptable.getById(ecritureComptableList, 2));
+        Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalCredit());
+        Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalCredit());
     }
 
+    /*
+     * Test si ecriture comptable est présent dans la liste avec ID
+     *
+     */
+    @Test
+    public void getById_whenEcritureComptableExist() {
+        // Assert
+        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getId());
     }
+
+    /*
+     * Test si ecriture comptable n'est  pas présent dans la liste avec ID
+     *
+     */
+    @Test
+    public void getById_whenEcritureComptableNotExist() {
+        // Assert
+        assertThat(EcritureComptable.getById(ecritureComptableList, 2)).isEqualTo(null);
+    }
+
+
+
+    /*
+     * Après chaque test effacement des données
+     */
+    @After
+    public void undefCompteComptable() {
+        compteComptableList.clear();
+        journalComptableList.clear();
+    }
+
+
+}

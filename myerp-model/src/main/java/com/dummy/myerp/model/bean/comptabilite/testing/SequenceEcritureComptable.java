@@ -48,7 +48,7 @@ public class SequenceEcritureComptable{
      * @param  pYear l'année du {@link SequenceEcritureComptable} à chercher
      * @return {@link SequenceEcritureComptable} ou {@code null}
      */
-    public static SequenceEcritureComptable getByCodeAndYear(List<? extends SequenceEcritureComptable> pList, String pCode, Integer pYear) {
+    static SequenceEcritureComptable getByCodeAndYear(List<? extends SequenceEcritureComptable> pList, String pCode, Integer pYear) {
         SequenceEcritureComptable vRetour = null;
         for (SequenceEcritureComptable vBean : pList) {
             if (isSequenceEcritureComptableExist( vBean,  pCode, pYear )) {
@@ -60,7 +60,7 @@ public class SequenceEcritureComptable{
     }
 
 
-    public static boolean isSequenceEcritureComptableExist(SequenceEcritureComptable vBean, String pCode, Integer pYear){
+    static boolean isSequenceEcritureComptableExist(SequenceEcritureComptable vBean, String pCode, Integer pYear){
         return (vBean != null && Objects.equals(vBean.getJournalComptable().getCode(), pCode) && Objects.equals(vBean.getAnnee(), pYear));
     }
 

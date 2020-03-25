@@ -58,10 +58,5 @@ public class JournalComptable {
         }
         return vRetour;
     }
-    public static boolean isJournalComptableExist(JournalComptable vBean, String pCode ){
-
-        return (vBean != null && Objects.equals(vBean.getCode(), pCode) );
-    }
-
 
 }

@@ -36,6 +36,7 @@ public class EcritureComptable{
     @NotNull
     JournalComptable journalComptable;
 
+    //Correction sur la regex  en premier instance  il prenait des chiffres au lieu des lettres
     /** The Reference. */
     @Pattern(regexp = "[A-Z]{2}-[0-9]{4}/[0-9]{5}")
     String reference;
@@ -47,7 +48,7 @@ public class EcritureComptable{
     /** The Libelle. */
     @NotNull
     @Size(min = 1, max = 200)
-    private String libelle;
+    String libelle;
 
 
 
@@ -65,7 +66,7 @@ public class EcritureComptable{
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
      */
 
-    public BigDecimal getTotalDebit() {
+    BigDecimal getTotalDebit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
             if (vLigneEcritureComptable.getDebit() != null) {
@@ -80,7 +81,8 @@ public class EcritureComptable{
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
      */
-    public BigDecimal getTotalCredit() {
+    //Modification sur le paramètre utilisé car utilisation du débit au lieu du crédit
+    BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
 
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
@@ -99,10 +101,8 @@ public class EcritureComptable{
         return this.getTotalDebit().equals(getTotalCredit());
     }
 
-    public boolean isAmountNotNull(BigDecimal amount){
-        return  (amount != null);
-    }
-    // ==================== Méthodes STATIC ====================
+
+      // ==================== Méthodes STATIC ====================
     /**
      * Renvoie le {@link EcritureComptable} de code {@code pCode} s'il est présent dans la liste
      *
