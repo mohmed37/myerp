@@ -2,6 +2,7 @@ package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -121,6 +122,7 @@ public class EcritureComptableTest {
         // Assert
         Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalDebit() );
         Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalDebit());
+
     }
 
     /*
@@ -141,8 +143,21 @@ public class EcritureComptableTest {
     @Test
     public void getById_whenEcritureComptableExist() {
         // Assert
-        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getId());
+        assertThat(EcritureComptable.isEcritureComptableExist(ecritureComptableList.get(0), 1));
+
     }
+
+    @Test
+    public void getById_whenEcritureComptable() {
+
+        // Assert
+        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getId());
+        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getReference()).isEqualTo("VE-2020/00001");
+        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getLibelle()).isEqualTo("Fournisseur");
+        assertThat(EcritureComptable.getById(ecritureComptableList,1).getJournalComptable().
+                getCode()).isEqualTo("VE");
+    }
+
 
     /*
      * Test si ecriture comptable n'est  pas présent dans la liste avec ID
@@ -152,7 +167,9 @@ public class EcritureComptableTest {
     public void getById_whenEcritureComptableNotExist() {
         // Assert
         assertThat(EcritureComptable.getById(ecritureComptableList, 2)).isEqualTo(null);
+
     }
+
 
 
 

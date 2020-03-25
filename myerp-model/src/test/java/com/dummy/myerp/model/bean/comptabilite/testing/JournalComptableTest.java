@@ -46,6 +46,7 @@ public class JournalComptableTest {
     public void getByCode_whenJournalComptableExist() {
         assertThat(JournalComptable.getByCode(journalComptableList, "A1").getLibelle()).isEqualTo("Libelle1");
         assertThat(JournalComptable.getByCode(journalComptableList, "A2").getLibelle()).isEqualTo("Libelle2");
+
     }
 
     /*

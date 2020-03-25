@@ -3,10 +3,7 @@ package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -124,7 +121,9 @@ public class EcritureComptable{
     public static boolean isEcritureComptableExist(EcritureComptable vBean, Integer pId ){
 
         return (vBean != null && Objects.equals(vBean.getId(), pId));
+
     }
+
 
 
 
