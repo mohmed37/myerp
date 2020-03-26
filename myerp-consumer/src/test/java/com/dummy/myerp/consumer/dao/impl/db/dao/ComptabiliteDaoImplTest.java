@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -18,6 +19,9 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 
 public class ComptabiliteDaoImplTest {
 
@@ -25,7 +29,7 @@ public class ComptabiliteDaoImplTest {
 
     private List<CompteComptable> compteComptableList = new ArrayList<>();
     private List<JournalComptable> journalComptableList= new ArrayList<>();
-
+    private SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
 
 
     private LigneEcritureComptable createLigne(Integer pLigneId, String pLigneEcritureLibelle,
@@ -93,7 +97,7 @@ public class ComptabiliteDaoImplTest {
         JournalComptable journal = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode( journalComptableList, "VE" ),
                 new JournalComptable( "VE","Vente" ) );
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable(journal,2020,
+         sequenceEcritureComptable = new SequenceEcritureComptable(journal,2020,
                 1);
         dao.insertSequenceEcritureComptable( sequenceEcritureComptable );
 
@@ -110,29 +114,33 @@ public class ComptabiliteDaoImplTest {
 
         dao.deleteSequenceEcritureComptable( sequenceEcritureComptable );
 
+
         sequenceEcritureComptable = dao.getSequenceEcritureComptable("VE",2020);
         assertNull( sequenceEcritureComptable );
 
     }
 
 
+
+
     @Test
     public void getListCompteComptable() {
         List<CompteComptable> listCompteComptable = dao.getListCompteComptable();
-        assertNotNull( listCompteComptable);
+        assertThat(listCompteComptable.isEmpty()).isFalse();
     }
 
     @Test
     public void getListJournalComptable() {
         List<JournalComptable> listJournalComptable = dao.getListJournalComptable();
-        assertNotNull( listJournalComptable);
-    }
+        assertThat(listJournalComptable.isEmpty()).isFalse();}
 
     @Test
     public void getListEcritureComptable() {
         List<EcritureComptable> listEcritureComptable = dao.getListEcritureComptable();
-        assertNotNull(listEcritureComptable );
+        assertThat(listEcritureComptable.isEmpty()).isFalse();
     }
+
+
 
     @Test
     public void getEcritureComptable() {
