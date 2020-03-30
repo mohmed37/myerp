@@ -53,8 +53,18 @@ public class EcritureComptable{
     /** La liste des lignes d'écriture comptable. */
     @Valid
     @Size(min = 2)
-    private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
+    private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
+    private EcritureComptable(Builder builder) {
+       this.id=builder.id;
+       this.date=builder.date;
+       this.libelle=builder.libelle;
+       this.reference=builder.reference;
+       this.journalComptable=builder.journalComptable;
+       this.listLigneEcriture=builder.listLigneEcriture;
+
+
+    }
 
 
     /**
@@ -124,7 +134,49 @@ public class EcritureComptable{
 
     }
 
+    public static class Builder{
+        private Integer id;
+        private String reference;
+        private Date date;
+        private String libelle;
+        private   JournalComptable journalComptable;
+        private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
+        public EcritureComptable.Builder journalComptable(JournalComptable journalComptable){
+            this.journalComptable=journalComptable;
+            return this;
+        }
+        public EcritureComptable.Builder listLigneEcriture(List<LigneEcritureComptable>ligneEcritureComptable){
+            this.listLigneEcriture=ligneEcritureComptable;
+            return this;
+        }
+
+        public EcritureComptable.Builder id(Integer id){
+            this.id= id;
+            return this;
+        }
+        public EcritureComptable.Builder libelle(String libelle){
+            this.libelle=libelle;
+            return this;
+        }
+
+        public EcritureComptable.Builder reference(String reference){
+            this.reference=reference;
+            return this;
+        }
+
+        public EcritureComptable.Builder date(Date date){
+            this.date=date;
+            return this;
+        }
+
+
+        public EcritureComptable build(){
+            return new EcritureComptable(this);
+        }
+
+
+    }
 
 
 

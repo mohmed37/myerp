@@ -63,6 +63,17 @@ public class LigneEcritureComptable {
         debit = pDebit;
         credit = pCredit;
     }
+
+    private LigneEcritureComptable(Builder builder) {
+        this.id=builder.id;
+        this.libelle=builder.libelle;
+        this.credit=builder.credit;
+        this.debit=builder.credit;
+        this.compteComptable=builder.compteComptable;
+        this.ecritureComptable=builder.ecritureComptable;
+
+
+    }
     // ==================== Méthodes STATIC ====================
     /**
      * Renvoie le {@link EcritureComptable} de code {@code pCode} s'il est présent dans la liste
@@ -87,6 +98,46 @@ public class LigneEcritureComptable {
         return (vBean != null && Objects.equals(vBean.getEcritureComptable().getId(), pId) );
     }
 
+    public static class Builder{
+        Integer id;
+        String libelle;
+        BigDecimal debit;
+        BigDecimal credit;
+        EcritureComptable ecritureComptable;
+        CompteComptable compteComptable;
+
+        public LigneEcritureComptable.Builder ecritureComptable(EcritureComptable ecritureComptable){
+            this.ecritureComptable= ecritureComptable;
+            return this;
+        }
+
+        public LigneEcritureComptable.Builder compteComptable(CompteComptable compteComptable){
+            this.compteComptable=compteComptable;
+            return this;
+        }
+
+        public LigneEcritureComptable.Builder id(Integer id){
+            this.id= id;
+            return this;
+        }
+        public LigneEcritureComptable.Builder libelle(String libelle){
+            this.libelle=libelle;
+            return this;
+        }
+        public LigneEcritureComptable.Builder debit(BigDecimal debit){
+            this.debit=debit;
+            return this;
+        }
+        public LigneEcritureComptable.Builder credit(BigDecimal credit){
+            this.credit=credit;
+            return this;
+        }
+
+        public LigneEcritureComptable build(){
+            return new LigneEcritureComptable(this);
+        }
+
+    }
 
 
 

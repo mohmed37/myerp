@@ -17,6 +17,7 @@ import java.util.List;
 public class CompteComptableTest {
 
     private List<CompteComptable> comptesComptable;
+    private CompteComptable compteComptable;
 
     /*
      * Création d'une liste de compte comptable comptesComptable
@@ -26,7 +27,7 @@ public class CompteComptableTest {
     public void initCompteComptable() {
         comptesComptable = new ArrayList<CompteComptable>();
         for (int i = 1; i < 3; i++ ) {
-        CompteComptable compteComptable = Mockito.mock(CompteComptable.class);
+        this.compteComptable= Mockito.mock(CompteComptable.class);
 
         Mockito.when(compteComptable.getNumero()).thenReturn(400+i);
         Mockito.when(compteComptable.getLibelle()).thenReturn("Fournisseurs n° "+i);

@@ -75,13 +75,11 @@ public class EcritureComptableTest {
         ecritureComptableList = new ArrayList<EcritureComptable>();
 
         // Act
-        JournalComptable journal = ObjectUtils.defaultIfNull(
-                JournalComptable.getByCode(journalComptableList, "VE"),
-                new JournalComptable("VE", "Vente"));
+        JournalComptable journalComptable=new JournalComptable.Builder().code("VE").libelle("Vente").build();
 
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setId(1);
-        ecritureComptable.setJournalComptable(journal);
+        ecritureComptable.setJournalComptable(journalComptable);
         ecritureComptable.setReference("VE-2020/00001");
         ecritureComptable.setDate(new Date());
         ecritureComptable.setLibelle("Fournisseur");

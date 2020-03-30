@@ -35,8 +35,11 @@ public class SequenceEcritureComptable{
     /** La dernière valeur utilisée */
     Integer derniereValeur;
 
-
-
+    public SequenceEcritureComptable(Builder builder) {
+        this.journalComptable=builder.journalComptable;
+        this.annee=builder.annee;
+        this.derniereValeur=builder.derniereValeur;
+    }
 
 
     // ==================== Méthodes STATIC ====================
@@ -64,6 +67,31 @@ public class SequenceEcritureComptable{
         return (vBean != null && Objects.equals(vBean.getJournalComptable().getCode(), pCode) && Objects.equals(vBean.getAnnee(), pYear));
     }
 
+    public static class Builder{
+
+        private JournalComptable journalComptable;
+        private Integer annee;
+        private  Integer derniereValeur;
+
+        public SequenceEcritureComptable.Builder JournalComptable(JournalComptable journalComptable){
+            this.journalComptable= journalComptable;
+            return this;
+        }
+        public SequenceEcritureComptable.Builder annee(Integer annee){
+            this.annee=annee;
+            return this;
+        }
+        public SequenceEcritureComptable.Builder derniereValeur(Integer derniereValeur){
+            this.derniereValeur=derniereValeur;
+            return this;
+        }
+
+        public SequenceEcritureComptable build(){
+            return new SequenceEcritureComptable(this);
+        }
+
+
+    }
 
 
 }

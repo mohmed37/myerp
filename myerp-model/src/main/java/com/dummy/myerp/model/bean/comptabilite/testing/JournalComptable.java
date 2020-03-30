@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 
+
 public class JournalComptable {
 
     // ==================== Attributs ====================
@@ -39,6 +40,12 @@ public class JournalComptable {
 
      SequenceEcritureComptable sequenceEcritureComptable;
 
+    private JournalComptable(Builder builder) {
+        this.code=builder.code;
+        this.libelle=builder.libelle;
+
+    }
+
 
     // ==================== Méthodes STATIC ====================
     /**
@@ -58,5 +65,24 @@ public class JournalComptable {
         }
         return vRetour;
     }
+    public static class Builder{
+        private String code;
+        private String libelle;
+
+       public Builder code(String code){
+           this.code= code;
+           return this;
+       }
+        public Builder libelle(String libelle){
+           this.libelle=libelle;
+           return this;
+        }
+        public JournalComptable build(){
+           return new JournalComptable(this);
+        }
+
+
+    }
+
 
 }

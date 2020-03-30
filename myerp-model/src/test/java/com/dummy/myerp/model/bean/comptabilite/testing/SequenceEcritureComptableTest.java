@@ -25,9 +25,7 @@ public class SequenceEcritureComptableTest {
     public void init() {
         sequenceEcritureComptableList = new ArrayList<SequenceEcritureComptable>();
 
-        JournalComptable journalComptable = new JournalComptable();
-        journalComptable.setCode("VE");
-        journalComptable.setLibelle("Vente");
+        JournalComptable journalComptable = new JournalComptable.Builder().code("VE").libelle("Vente").build();
 
         SequenceEcritureComptable sequenceEcritureComptable=Mockito.mock(SequenceEcritureComptable.class);
         Mockito.when(sequenceEcritureComptable.getJournalComptable()).thenReturn(journalComptable);
@@ -67,15 +65,14 @@ public class SequenceEcritureComptableTest {
     }
     @Test
     public void isSequenceEcritureComptableExist(){
-        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
 
-        JournalComptable journal = ObjectUtils.defaultIfNull(
-                JournalComptable.getByCode(  journalComptableList,"AC" ),
-                new JournalComptable( "AC","Achat" ) );
 
-        sequenceEcritureComptable.setJournalComptable( journal );
-        sequenceEcritureComptable.setAnnee(2016);
-        sequenceEcritureComptable.setDerniereValeur(1);
+        JournalComptable journalComptable=new JournalComptable.Builder().code("AC").libelle("Achat").build();
+
+
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable.Builder()
+                .JournalComptable(journalComptable).annee(2016).derniereValeur(1).build();
+
         // Assert
         assertThat(SequenceEcritureComptable.isSequenceEcritureComptableExist(sequenceEcritureComptable,
                 "AC",2016));

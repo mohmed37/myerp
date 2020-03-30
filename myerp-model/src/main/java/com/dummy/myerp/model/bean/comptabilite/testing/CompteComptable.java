@@ -36,6 +36,11 @@ public class CompteComptable {
     @Size(min = 1, max = 150)
     private String libelle;
 
+    private CompteComptable(Builder builder) {
+        this.numero=builder.numero;
+        this.libelle=builder.libelle;
+    }
+
 
    /* @Valid
     private final List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<>();*/
@@ -69,6 +74,25 @@ public class CompteComptable {
             }
         }
         return vRetour;
+    }
+
+    public static class Builder{
+        private Integer numero;
+        private String libelle;
+
+        public CompteComptable.Builder numero(Integer numero){
+            this.numero= numero;
+            return this;
+        }
+        public CompteComptable.Builder libelle(String libelle){
+            this.libelle=libelle;
+            return this;
+        }
+        public CompteComptable build(){
+            return new CompteComptable(this);
+        }
+
+
     }
 
 }
