@@ -3,11 +3,8 @@ package com.dummy.myerp.model.bean.comptabilite.testing;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -40,10 +37,6 @@ public class CompteComptable {
         this.numero=builder.numero;
         this.libelle=builder.libelle;
     }
-
-
-   /* @Valid
-    private final List<LigneEcritureComptable> ligneEcritureComptableList = new ArrayList<>();*/
 
 
 

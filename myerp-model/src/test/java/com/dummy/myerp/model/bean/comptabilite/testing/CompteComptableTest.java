@@ -19,6 +19,7 @@ public class CompteComptableTest {
     private List<CompteComptable> comptesComptable;
     private CompteComptable compteComptable;
 
+
     /*
      * Création d'une liste de compte comptable comptesComptable
      */
@@ -49,7 +50,8 @@ public class CompteComptableTest {
      */
     @Test
     public void getByNumero_whenCompteComptableNotExist(){
-        assertThat(CompteComptable.getByNumero(comptesComptable,403)).isEqualTo(null);
+        assertThat(CompteComptable.getByNumero(comptesComptable,402)).isNotNull();
+        assertThat(CompteComptable.getByNumero(comptesComptable,404)).isNull();
     }
 
     /*
@@ -66,7 +68,8 @@ public class CompteComptableTest {
      */
     @Test
     public void  getByLibelle_whenCompteComptableNotExist(){
-        assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 3")).isEqualTo(null);
+        assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 2")).isNotNull();
+        assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 4")).isNull();
     }
 
 

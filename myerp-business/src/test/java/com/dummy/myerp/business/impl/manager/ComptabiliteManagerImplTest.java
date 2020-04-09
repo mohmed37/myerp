@@ -70,6 +70,7 @@ public class ComptabiliteManagerImplTest {
         journalComptableList.add(new JournalComptable("BQ","Banque") );
         journalComptableList.add(new JournalComptable("OD","Opérations Diverses") );
 
+
         journalComptable = ObjectUtils.defaultIfNull(
                 JournalComptable.getByCode( journalComptableList, "AC" ),
                 new JournalComptable( "AL","Achat Libre" ) );
