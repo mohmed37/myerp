@@ -51,6 +51,18 @@ public class ComptabiliteDaoImplTest {
         return vRetour;
     }
 
+    /**
+     * Teste l'initialisation du contexte Spring
+     */
+    @Test
+    public void testInit() {
+        SpringRegistry.init();
+        assertNotNull(SpringRegistry.getDaoProxy());
+
+    }
+
+
+
     @Before
     public void init() {
         SpringRegistry.init();
@@ -68,38 +80,6 @@ public class ComptabiliteDaoImplTest {
     @After
     public void initData(){
         dao.initData();
-    }
-
-    @Test
-    public void isDataSourceConfig(){
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://127.0.0.1:9032/db_myerp");
-        ds.setUsername("usr_myerp");
-        ds.setPassword("myerp");
-
-        Map<DataSourcesEnum, DataSource> vMapDataSource = new HashMap<>(DataSourcesEnum.values().length);
-        vMapDataSource.put(DataSourcesEnum.MYERP,ds );
-
-        Assert.assertFalse( AbstractDbConsumer.isDataSourceConfig(ds,vMapDataSource,DataSourcesEnum.MYERP) );
-        Assert.assertTrue( AbstractDbConsumer.isDataSourceConfig(ds,vMapDataSource,null) );
-        Assert.assertTrue( AbstractDbConsumer.isDataSourceConfig(null,vMapDataSource,DataSourcesEnum.MYERP) );
-        Assert.assertTrue( AbstractDbConsumer.isDataSourceConfig(null,vMapDataSource,null) );
-
-    }
-
-    @Test(expected = UnsatisfiedLinkError.class )
-    public void isDataSourceIsNull()throws UnsatisfiedLinkError{
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://127.0.0.1:9032/db_myerp");
-        ds.setUsername("usr_myerp");
-        ds.setPassword("myerp");
-
-        Map<DataSourcesEnum, DataSource> vMapDataSource = new HashMap<>(DataSourcesEnum.values().length);
-        vMapDataSource.put(DataSourcesEnum.MYERP,ds );
-        AbstractDbConsumer.isDataSourceIsNull(ds,DataSourcesEnum.MYERP) ;
-        AbstractDbConsumer.isDataSourceIsNull(null,DataSourcesEnum.MYERP);
     }
 
 

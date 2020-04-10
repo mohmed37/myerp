@@ -82,6 +82,17 @@ public class LigneEcritureComptableTest {
         assertThat(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, 1)).isNotNull();
     }
 
+     // RG Comptable 4
+    @Test
+    public void isLigneEcritureComptableValeurNegativeExist() {
+
+        LigneEcritureComptable ligneEcritureComptable =new LigneEcritureComptable.Builder().
+                libelle("Cartouche d'imprimante").id(1).debit(BigDecimal.valueOf(-43.95)).credit(null)
+                .compteComptable(compteComptable).
+                        ecritureComptable(ecritureComptable).build();
+
+        assertThat(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, 1)).isNotNull();
+    }
 
     /*
      * Après chaque test effacement des données

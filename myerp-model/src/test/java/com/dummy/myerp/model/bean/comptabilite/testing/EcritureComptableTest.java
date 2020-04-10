@@ -69,7 +69,7 @@ public class EcritureComptableTest {
         ecritureComptable.getListLigneEcriture().add(this.createLigne(1, "Fourniture",
                 401,"Facture C110002",null, "100.00"));
         ecritureComptable.getListLigneEcriture().add(this.createLigne(2,"Founisseur 1",
-                401,"Fournisseur","100.00", null));
+                401,"Fournisseur","100.001", null));
         ecritureComptable.getListLigneEcriture().add(this.createLigne(2, "Fournisseur 1",
                 512, "Banque",null, "100.00"));
 
@@ -117,8 +117,10 @@ public class EcritureComptableTest {
         // Assert
         Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalDebit());
         Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalDebit());
+        Assert.assertNotEquals(new BigDecimal( "200.000"),ecritureComptable.getTotalDebit());
 
     }
+
 
     /*
      * Test si la somme du crédit est correct
@@ -129,6 +131,7 @@ public class EcritureComptableTest {
         // Assert
         Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalCredit());
         Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalCredit());
+        Assert.assertNotEquals(new BigDecimal( "200.001"),ecritureComptable.getTotalCredit());
     }
 
     /*
@@ -138,9 +141,21 @@ public class EcritureComptableTest {
     @Test
     public void getById_whenEcritureComptableExist() {
         // Assert
-        assertThat(EcritureComptable.isEcritureComptableExist(ecritureComptable, 1));
+        assertThat(EcritureComptable.isEcritureComptableExist(ecritureComptable, 1)).isNotNull();
 
     }
+
+    /*
+     * Test si ecriture comptable n'est  pas présent dans la liste avec ID
+     *
+     */
+    @Test
+    public void getById_whenEcritureComptableNotExist() {
+        // Assert
+        assertThat(EcritureComptable.getById(ecritureComptableList, 3)).isNull();
+
+    }
+
 
     @Test
     public void getById_whenEcritureComptable() {
@@ -153,16 +168,7 @@ public class EcritureComptableTest {
     }
 
 
-    /*
-     * Test si ecriture comptable n'est  pas présent dans la liste avec ID
-     *
-     */
-    @Test
-    public void getById_whenEcritureComptableNotExist() {
-        // Assert
-        assertThat(EcritureComptable.getById(ecritureComptableList, 2)).isNull();
 
-    }
 
 
 }

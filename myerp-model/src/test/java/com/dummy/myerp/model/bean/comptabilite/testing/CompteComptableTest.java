@@ -43,8 +43,6 @@ public class CompteComptableTest {
     @Test
     public void getByNumero_whenCompteComptableExist(){
         assertThat(CompteComptable.getByNumero(comptesComptable,402)).isNotNull();
-        assertThat(CompteComptable.getByNumero(comptesComptable,401).getNumero()).isEqualTo(401);
-        assertThat(CompteComptable.getByNumero(comptesComptable,402).getNumero()).isEqualTo(402);
     }
 
     /*
