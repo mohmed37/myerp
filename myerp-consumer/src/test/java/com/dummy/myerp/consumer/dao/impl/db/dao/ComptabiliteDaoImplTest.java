@@ -1,22 +1,14 @@
 package com.dummy.myerp.consumer.dao.impl.db.dao;
 
 import com.dummy.myerp.consumer.SpringRegistry;
-import com.dummy.myerp.consumer.db.AbstractDbConsumer;
-import com.dummy.myerp.consumer.db.DataSourcesEnum;
 import com.dummy.myerp.model.bean.comptabilite.testing.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.apache.commons.lang3.ObjectUtils;
 
 import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -95,6 +87,7 @@ public class ComptabiliteDaoImplTest {
         //Test la methode modification
         Assertions.assertThat(sequenceEcritureComptable.getDerniereValeur()).isEqualTo(1);
         sequenceEcritureComptable.setDerniereValeur(2);
+
         dao.updateSequenceEcritureComptable( sequenceEcritureComptable );
         Assertions.assertThat(sequenceEcritureComptable.getDerniereValeur()).isEqualTo(2);
 
@@ -134,18 +127,17 @@ public class ComptabiliteDaoImplTest {
     public void getEcritureComptable() throws NotFoundException {
 
         dao.insertEcritureComptable(ecritureComptable);
-
-        Assertions.assertThat(dao.getEcritureComptableByRef("VE-2020/00001")).isNotNull();
         Assertions.assertThat(dao.getEcritureComptable(2)).isNull();
 
     }
 
     @Test(expected = NotFoundException.class )
     public void getEcritureComptableByRef() throws NotFoundException {
+
+        Assertions.assertThat(dao.getEcritureComptableByRef("VE-2020/00001")).isNotNull();
         Assertions.assertThat(dao.getEcritureComptable(-1)).isNotNull();
-        EcritureComptable ecritureComptable = dao.getEcritureComptableByRef("AC-2016/00001");
-        assertNotNull( ecritureComptable);
-        dao.getEcritureComptableByRef("AC-2016/00000");
+        Assertions.assertThat(dao.getEcritureComptableByRef("AC-2016/00000")).isNull();
+
 
     }
 
