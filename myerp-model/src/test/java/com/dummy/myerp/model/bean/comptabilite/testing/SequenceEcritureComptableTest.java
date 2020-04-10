@@ -19,8 +19,7 @@ public class SequenceEcritureComptableTest {
 
 
     private List<SequenceEcritureComptable> sequenceEcritureComptableList;
-    private  SequenceEcritureComptable sequenceEcritureComptable=new SequenceEcritureComptable();
-    private List<JournalComptable > journalComptableList= new ArrayList<JournalComptable>();
+
     @Before
     public void init() {
         sequenceEcritureComptableList = new ArrayList<SequenceEcritureComptable>();

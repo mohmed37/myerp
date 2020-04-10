@@ -63,9 +63,8 @@ public class ComptabiliteDaoImplTest {
                 .annee(2020).derniereValeur(1).build();
         this.ecritureComptable=new EcritureComptable.Builder().id(-1).journalComptable(journalComptable).
                 reference("VE-2020/00001").date(new Date()).libelle("Cartouches d'imprimante").build();
+        }
 
-
-    }
     @After
     public void initData(){
         dao.initData();
@@ -106,40 +105,42 @@ public class ComptabiliteDaoImplTest {
 
 
     @Test
-    public void insertSequenceEcritureComptable(){
+    public void crudSequenceEcritureComptable(){
+
+        //Test de la méthode d'insertion
+        Assertions.assertThat(dao.getSequenceEcritureComptable("VE",2020)).isNull();
         dao.insertSequenceEcritureComptable( sequenceEcritureComptable );
         Assertions.assertThat(dao.getSequenceEcritureComptable("VE",2020)).isNotNull();
 
-     }
-
-    @Test
-    public void updateSequenceEcritureComptable() {
-
+        //Test la methode modification
+        Assertions.assertThat(sequenceEcritureComptable.getDerniereValeur()).isEqualTo(1);
         sequenceEcritureComptable.setDerniereValeur(2);
         dao.updateSequenceEcritureComptable( sequenceEcritureComptable );
         Assertions.assertThat(sequenceEcritureComptable.getDerniereValeur()).isEqualTo(2);
 
-    }
+        //Test de la méthode de suppression
 
-    @Test
-    public void deleteSequenceEcritureComptable() {
         dao.deleteSequenceEcritureComptable( sequenceEcritureComptable );
         Assertions.assertThat(dao.getSequenceEcritureComptable("VE",2020)).isNull();
 
-    }
-
+     }
 
 
     @Test
     public void getListCompteComptable() {
         List<CompteComptable> listCompteComptable = dao.getListCompteComptable();
         assertThat(listCompteComptable.isEmpty()).isFalse();
+
     }
 
     @Test
     public void getListJournalComptable() {
         List<JournalComptable> listJournalComptable = dao.getListJournalComptable();
-        assertThat(listJournalComptable.isEmpty()).isFalse();}
+        assertThat(listJournalComptable.isEmpty()).isFalse();
+
+
+
+    }
 
     @Test
     public void getListEcritureComptable() {

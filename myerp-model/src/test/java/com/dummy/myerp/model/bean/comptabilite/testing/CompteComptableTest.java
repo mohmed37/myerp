@@ -3,7 +3,6 @@ package com.dummy.myerp.model.bean.comptabilite.testing;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +31,9 @@ public class CompteComptableTest {
 
         Mockito.when(compteComptable.getNumero()).thenReturn(400+i);
         Mockito.when(compteComptable.getLibelle()).thenReturn("Fournisseurs n° "+i);
-        comptesComptable.add(compteComptable);}
+
+        comptesComptable.add(compteComptable);
+        }
     }
 
 
@@ -41,6 +42,7 @@ public class CompteComptableTest {
      */
     @Test
     public void getByNumero_whenCompteComptableExist(){
+        assertThat(CompteComptable.getByNumero(comptesComptable,402)).isNotNull();
         assertThat(CompteComptable.getByNumero(comptesComptable,401).getNumero()).isEqualTo(401);
         assertThat(CompteComptable.getByNumero(comptesComptable,402).getNumero()).isEqualTo(402);
     }
@@ -50,7 +52,6 @@ public class CompteComptableTest {
      */
     @Test
     public void getByNumero_whenCompteComptableNotExist(){
-        assertThat(CompteComptable.getByNumero(comptesComptable,402)).isNotNull();
         assertThat(CompteComptable.getByNumero(comptesComptable,404)).isNull();
     }
 
@@ -68,7 +69,6 @@ public class CompteComptableTest {
      */
     @Test
     public void  getByLibelle_whenCompteComptableNotExist(){
-        assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 2")).isNotNull();
         assertThat(CompteComptable.getByLibelle(comptesComptable,"Fournisseurs n° 4")).isNull();
     }
 
@@ -76,7 +76,6 @@ public class CompteComptableTest {
 
     @After
     public void undefCompteComptable() {
-
         comptesComptable.clear();
     }
 

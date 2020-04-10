@@ -54,6 +54,7 @@ public class EcritureComptableTest {
         ) );
         compteComptableList.add(new CompteComptable(706,"Prestations de services" ) );
 
+
         journalComptableList.add(new JournalComptable("AC","Achat") );
         journalComptableList.add(new JournalComptable("VE","Vente") );
         journalComptableList.add(new JournalComptable("BQ","Banque") );
@@ -75,14 +76,10 @@ public class EcritureComptableTest {
         ecritureComptableList = new ArrayList<EcritureComptable>();
 
         // Act
-        JournalComptable journalComptable=new JournalComptable.Builder().code("VE").libelle("Vente").build();
+       JournalComptable journalComptable=new JournalComptable.Builder().code("VE").libelle("Vente").build();
 
-        EcritureComptable ecritureComptable = new EcritureComptable();
-        ecritureComptable.setId(1);
-        ecritureComptable.setJournalComptable(journalComptable);
-        ecritureComptable.setReference("VE-2020/00001");
-        ecritureComptable.setDate(new Date());
-        ecritureComptable.setLibelle("Fournisseur");
+       EcritureComptable ecritureComptable = new EcritureComptable.Builder().id(1).journalComptable(journalComptable)
+                .reference("VE-2020/00001").date(new Date()).libelle("Fournisseur").build();
         ecritureComptableList.add(ecritureComptable);
     }
 
@@ -118,7 +115,7 @@ public class EcritureComptableTest {
     @Test
     public void getTotalDebit() {
         // Assert
-        Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalDebit() );
+        Assert.assertEquals(new BigDecimal( "200.00"),ecritureComptable.getTotalDebit());
         Assert.assertNotEquals(new BigDecimal( "200"),ecritureComptable.getTotalDebit());
 
     }
@@ -141,7 +138,7 @@ public class EcritureComptableTest {
     @Test
     public void getById_whenEcritureComptableExist() {
         // Assert
-        assertThat(EcritureComptable.isEcritureComptableExist(ecritureComptableList.get(0), 1));
+        assertThat(EcritureComptable.isEcritureComptableExist(ecritureComptable, 1));
 
     }
 
@@ -149,7 +146,6 @@ public class EcritureComptableTest {
     public void getById_whenEcritureComptable() {
 
         // Assert
-        assertThat(EcritureComptable.getById(ecritureComptableList, 1).getId());
         assertThat(EcritureComptable.getById(ecritureComptableList, 1).getReference()).isEqualTo("VE-2020/00001");
         assertThat(EcritureComptable.getById(ecritureComptableList, 1).getLibelle()).isEqualTo("Fournisseur");
         assertThat(EcritureComptable.getById(ecritureComptableList,1).getJournalComptable().
@@ -164,20 +160,8 @@ public class EcritureComptableTest {
     @Test
     public void getById_whenEcritureComptableNotExist() {
         // Assert
-        assertThat(EcritureComptable.getById(ecritureComptableList, 2)).isEqualTo(null);
+        assertThat(EcritureComptable.getById(ecritureComptableList, 2)).isNull();
 
-    }
-
-
-
-
-    /*
-     * Après chaque test effacement des données
-     */
-    @After
-    public void undefCompteComptable() {
-        compteComptableList.clear();
-        journalComptableList.clear();
     }
 
 

@@ -29,10 +29,12 @@ public class LigneEcritureComptableTest {
         ligneEcritureComptableList = new ArrayList<LigneEcritureComptable>();
         // JournalComptable journalComptable
         journalComptable=new JournalComptable.Builder().code("AC").libelle("Achat").build();
+
         // EcritureComptable ecritureComptable
         ecritureComptable =new EcritureComptable.Builder()
                 .id(1).journalComptable(journalComptable).reference("AC-2020/00001")
                 .date(new Date()).libelle("Cartouches d'imprimante").build();
+
         // CompteComptable compteComptable
         compteComptable=new CompteComptable.Builder().numero(401).libelle("Fournisseurs").build();
 
@@ -58,7 +60,7 @@ public class LigneEcritureComptableTest {
         assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 1).getId())
                 .isEqualTo(1);
 
-        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 2)).isEqualTo(null);
+        assertThat(LigneEcritureComptable.getById(ligneEcritureComptableList, 2)).isNull();
 
     }
 
@@ -77,7 +79,7 @@ public class LigneEcritureComptableTest {
                 .compteComptable(compteComptable).
                         ecritureComptable(ecritureComptable).build();
 
-        assertThat(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, 1)).isEqualTo(true);
+        assertThat(LigneEcritureComptable.isLigneEcritureComptableExist(ligneEcritureComptable, 1)).isNotNull();
     }
 
 

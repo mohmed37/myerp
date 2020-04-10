@@ -112,11 +112,11 @@ public class ComptabiliteManagerImplTest {
 
         Assert.assertEquals("AC-2020/00001",manager.setReference( sequenceEcritureComptable ) );
 
+        Assert.assertNotEquals("AC-2020/0001",manager.setReference( sequenceEcritureComptable ) );
+
         Assert.assertNotEquals("AL-2020/0001",manager.setReference( sequenceEcritureComptable ) );
 
-        sequenceEcritureComptable = new SequenceEcritureComptable(journalComptable,2019,1);
-        Assert.assertNotEquals("AV-2020/00001",manager.setReference( sequenceEcritureComptable ) );
-
+        Assert.assertNotEquals("AC-2019/00001",manager.setReference( sequenceEcritureComptable ) );
 
     }
 

@@ -28,11 +28,12 @@ public class JournalComptableTest {
     @Before
     public void initJournalComptable() {
         journalComptableList = new ArrayList<JournalComptable>();
-        for (int i = 1; i < 3; i++ ) {
-            Date date= new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
 
+        Date date= new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        for (int i = 1; i < 3; i++ ) {
             JournalComptable journalComptable = Mockito.mock(JournalComptable.class);
             Mockito.when(journalComptable.getCode()).thenReturn("A"+i);
             Mockito.when(journalComptable.getLibelle()).thenReturn("Libelle"+i);
@@ -44,9 +45,9 @@ public class JournalComptableTest {
      */
     @Test
     public void getByCode_whenJournalComptableExist() {
+        assertThat(JournalComptable.getByCode(journalComptableList, "A1")).isNotNull();
         assertThat(JournalComptable.getByCode(journalComptableList, "A1").getLibelle()).isEqualTo("Libelle1");
         assertThat(JournalComptable.getByCode(journalComptableList, "A2").getLibelle()).isEqualTo("Libelle2");
-
     }
 
     /*
@@ -54,7 +55,7 @@ public class JournalComptableTest {
      */
     @Test
     public void getByCode_whenJournalComptableNotExist() {
-        assertThat(JournalComptable.getByCode(journalComptableList, "A3")).isEqualTo(null);
+        assertThat(JournalComptable.getByCode(journalComptableList, "A3")).isNull();
     }
 
     /*
@@ -63,7 +64,6 @@ public class JournalComptableTest {
 
     @After
     public void undefJournalComptable() {
-
         journalComptableList.clear();
     }
 }

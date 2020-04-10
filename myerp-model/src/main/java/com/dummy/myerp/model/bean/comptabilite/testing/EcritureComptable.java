@@ -47,13 +47,11 @@ public class EcritureComptable{
     @Size(min = 1, max = 200)
     String libelle;
 
-
-
-
     /** La liste des lignes d'écriture comptable. */
     @Valid
     @Size(min = 2)
-    private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
+    List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
+
 
     private EcritureComptable(Builder builder) {
        this.id=builder.id;
@@ -88,7 +86,7 @@ public class EcritureComptable{
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
      */
-    //Modification sur le paramètre utilisé car utilisation du débit au lieu du crédit
+    //Modification sur le paramètre utilisé car utilisation du débit au lieu du crédit et il attendait un chiffre à virgule
     BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
 
